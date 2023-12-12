@@ -13,6 +13,7 @@ class ApiService {
     if (token != null) {
       header["Authorization"] = "Bearer $token";
       header["Cookie"] = 'jwtHost=$token';
+      header["Content-Type"] = 'application/json';
     }
     final uri = Uri.parse(url);
 
@@ -82,6 +83,31 @@ class ApiService {
     try {
       final response = await http.delete(
         uri,
+        headers: header,
+      );
+      final responseBody = getResponse(response);
+      return Right(responseBody);
+    } on SocketException {
+      return Left(InterntExceptions());
+    } on http.ClientException {
+      return Left(BadRequestExceptions());
+    } catch (e) {
+      return Left(RequestTimeOutExceptions());
+    }
+  }
+
+  static EitherResponse putApi(var data, String url, [String? token]) async {
+    if (token != null) {
+      header["Authorization"] = "Bearer $token";
+      header["Cookie"] = 'jwtHost=$token';
+    }
+    final uri = Uri.parse(url);
+    final body = jsonEncode(data);
+
+    try {
+      final response = await http.put(
+        uri,
+        body: body,
         headers: header,
       );
       final responseBody = getResponse(response);

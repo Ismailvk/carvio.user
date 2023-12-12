@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:user_side/data/shared_preference/shared_prefence.dart';
-import 'package:user_side/views/bottom_navbar_screen/bottom_bar_main_screen.dart';
+import 'package:user_side/views/bottom_navbar_screen/bottom_navigation_bar.dart';
 import 'package:user_side/views/login_screen/login_screen.dart';
 
 class SplashScreen extends StatelessWidget {
@@ -23,7 +23,7 @@ class SplashScreen extends StatelessWidget {
     if (token != null) {
       // ignore: use_build_context_synchronously
       Navigator.of(context).pushAndRemoveUntil(
-          MaterialPageRoute(builder: (context) => const CoustomNavBar()),
+          MaterialPageRoute(builder: (context) => const ScreenParant()),
           (route) => false);
     } else {
       // ignore: use_build_context_synchronously

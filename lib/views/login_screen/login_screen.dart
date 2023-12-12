@@ -7,7 +7,7 @@ import 'package:user_side/resources/components/button_widget.dart';
 import 'package:user_side/resources/components/textformfield.dart';
 import 'package:user_side/resources/constants/app_color.dart';
 import 'package:user_side/utils/validation.dart';
-import 'package:user_side/views/home_screen/home_screen.dart';
+import 'package:user_side/views/bottom_navbar_screen/bottom_navigation_bar.dart';
 import 'package:user_side/views/signup_screen/signup_screen.dart';
 
 // ignore: must_be_immutable
@@ -133,7 +133,7 @@ class LoginScreen extends StatelessWidget {
                           } else if (state is LoginSuccessState) {
                             Navigator.of(context).pushAndRemoveUntil(
                                 MaterialPageRoute(
-                                    builder: (context) => const HomeScreen()),
+                                    builder: (context) => const ScreenParant()),
                                 (route) => false);
                             IconSnackBar.show(
                                 direction: DismissDirection.up,

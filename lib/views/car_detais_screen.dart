@@ -1,15 +1,18 @@
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
+import 'package:user_side/models/vehicle_model.dart';
 import 'package:user_side/resources/components/backbutton_widget.dart';
 import 'package:user_side/resources/components/medium_button_widget.dart';
 import 'package:user_side/resources/components/side_heading_row_widget.dart';
 import 'package:user_side/resources/components/small_card_widget.dart';
 import 'package:user_side/resources/components/sub_title_widget.dart';
 import 'package:user_side/resources/constants/app_color.dart';
+import 'package:user_side/resources/constants/app_fonts.dart';
 
 class CarDetailsScreen extends StatefulWidget {
-  const CarDetailsScreen({super.key});
+  final Vehicle vehicleData;
+  const CarDetailsScreen({super.key, required this.vehicleData});
 
   @override
   State<CarDetailsScreen> createState() => _CarDetailsScreenState();
@@ -23,7 +26,7 @@ class _CarDetailsScreenState extends State<CarDetailsScreen> {
   ];
 
   int activeIndex = 0;
-  int cardIndex = 0;
+  // int cardIndex = 0;
 
   @override
   Widget build(BuildContext context) {
@@ -77,21 +80,23 @@ class _CarDetailsScreenState extends State<CarDetailsScreen> {
                 )
               ],
             ),
-            const SideHeadingRowWidget(
-              title: 'Rnger Rover',
-              secondTitle: "₹ 20000",
+            SideHeadingRowWidget(
+              title: widget.vehicleData.brand,
+              secondTitle: "₹ ${widget.vehicleData.price}",
               color: AppColors.red,
             ),
-            const Padding(
-              padding: EdgeInsets.symmetric(horizontal: 10, vertical: 10),
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
               child: SingleChildScrollView(
                 scrollDirection: Axis.horizontal,
                 child: Row(
                   children: [
                     SmallCardWidget(
-                        title: 'Transmission', subtitle: 'Automatic'),
-                    SmallCardWidget(title: 'Fuel', subtitle: 'Petrol'),
-                    SmallCardWidget(title: 'Seat', subtitle: '5'),
+                        title: 'Transmission',
+                        subtitle: widget.vehicleData.transmission),
+                    SmallCardWidget(
+                        title: 'Fuel', subtitle: widget.vehicleData.fuel),
+                    const SmallCardWidget(title: 'Seat', subtitle: '5'),
                   ],
                 ),
               ),
@@ -111,7 +116,10 @@ class _CarDetailsScreenState extends State<CarDetailsScreen> {
                     ),
                   ),
                   const SizedBox(width: 20),
-                  const Text('Anna Jhon'),
+                  Text(
+                    widget.vehicleData.location,
+                    style: AppFonts.sansitaFont,
+                  ),
                   const Spacer(),
                   CircleAvatar(
                     radius: 30,

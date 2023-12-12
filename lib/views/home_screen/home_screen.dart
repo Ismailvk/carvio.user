@@ -73,6 +73,7 @@ class HomeScreen extends StatelessWidget {
                 ),
               ),
             ),
+            SubTitleWidget(title: 'Most Rated Cars'),
           ],
         ),
       ),

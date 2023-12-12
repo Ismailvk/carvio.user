@@ -3,4 +3,6 @@ class ApiUrls {
   static const String signUp = 'user/signup';
   static const String login = 'user/login';
   static const String otp = 'user/verify-otp';
+  static const String putAvailableVehicles = 'user/store-choice';
+  static const String getAvailableVehcles = 'user/vehicles';
 }

@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:user_side/blocs/login_bloc/login_bloc.dart';
+import 'package:user_side/blocs/map_bloc/map_bloc.dart';
 import 'package:user_side/blocs/signup_bloc/signup_bloc.dart';
+import 'package:user_side/blocs/vehicle/vehicle_bloc.dart';
 import 'package:user_side/data/shared_preference/shared_prefence.dart';
 import 'package:user_side/resources/constants/app_color.dart';
 import 'package:user_side/views/splash_screen/splash_screen.dart';
@@ -21,6 +23,8 @@ class MyApp extends StatelessWidget {
       providers: [
         BlocProvider<LoginBloc>(create: (context) => LoginBloc()),
         BlocProvider<SignupBloc>(create: (context) => SignupBloc()),
+        BlocProvider<MapBloc>(create: (context) => MapBloc()),
+        BlocProvider<VehicleBloc>(create: (context) => VehicleBloc()),
       ],
       child: MaterialApp(
         title: 'Carnova User',
@@ -28,7 +32,9 @@ class MyApp extends StatelessWidget {
           buttonTheme: ButtonThemeData(
               colorScheme:
                   ColorScheme.fromSeed(seedColor: AppColors.primaryColor)),
-          appBarTheme: const AppBarTheme(color: Colors.white),
+          appBarTheme: const AppBarTheme(
+              color: Colors.white,
+              titleTextStyle: TextStyle(color: Colors.black)),
           colorScheme: ColorScheme.fromSeed(seedColor: AppColors.primaryColor),
         ),
         home: const SplashScreen(),

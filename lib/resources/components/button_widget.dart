@@ -1,24 +1,27 @@
 import 'package:flutter/material.dart';
 import 'package:user_side/resources/constants/app_color.dart';
 
+// ignore: must_be_immutable
 class ButtonWidget extends StatelessWidget {
   final String title;
   final Function()? onPress;
+  bool? isColor;
 
-  const ButtonWidget({super.key, required this.title, this.onPress});
+  ButtonWidget({super.key, required this.title, this.onPress, this.isColor});
 
   @override
   Widget build(BuildContext context) {
     return SizedBox(
       height: MediaQuery.of(context).size.height * 0.08,
-      width: MediaQuery.of(context).size.width * 1,
+      width: MediaQuery.of(context).size.width * 0.8,
       child: ElevatedButton(
         onPressed: onPress,
         style: ButtonStyle(
             shape: MaterialStatePropertyAll(RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(10))),
-            backgroundColor:
-                const MaterialStatePropertyAll(AppColors.primaryColor)),
+            backgroundColor: MaterialStatePropertyAll(isColor == true
+                ? AppColors.carBackgroundColor
+                : AppColors.primaryColor)),
         child: Text(title),
       ),
     );
