@@ -7,7 +7,7 @@ class Vehicle {
   String brand;
   String fuel;
   String location;
-  CreatedBy createdBy;
+  String createdBy;
   List<String> images;
   bool isVerified;
   List<String> review;
@@ -44,7 +44,7 @@ class Vehicle {
       brand: json['brand'],
       fuel: json['fuel'],
       location: json['location'],
-      createdBy: CreatedBy.fromJson(json['createdBy']),
+      createdBy: json['createdBy'],
       images: List<String>.from(json['images']),
       isVerified: json['isVerified'],
       review: List<String>.from(json['review']),
@@ -65,7 +65,7 @@ class Vehicle {
       'brand': brand,
       'fuel': fuel,
       'location': location,
-      'createdBy': createdBy.toJson(),
+      'createdBy': createdBy,
       'images': images,
       'isVerified': isVerified,
       'review': review,
@@ -76,50 +76,50 @@ class Vehicle {
   }
 }
 
-class CreatedBy {
-  String id;
-  String name;
-  String email;
-  int phone;
-  String password;
-  bool isBlocked;
-  bool isVerified;
-  int v;
+// class CreatedBy {
+//   String id;
+//   String name;
+//   String email;
+//   int phone;
+//   String password;
+//   bool isBlocked;
+//   bool isVerified;
+//   int v;
 
-  CreatedBy({
-    required this.id,
-    required this.name,
-    required this.email,
-    required this.phone,
-    required this.password,
-    required this.isBlocked,
-    required this.isVerified,
-    required this.v,
-  });
+//   CreatedBy({
+//     required this.id,
+//     required this.name,
+//     required this.email,
+//     required this.phone,
+//     required this.password,
+//     required this.isBlocked,
+//     required this.isVerified,
+//     required this.v,
+//   });
 
-  factory CreatedBy.fromJson(Map<String, dynamic> json) {
-    return CreatedBy(
-      id: json['_id'],
-      name: json['name'],
-      email: json['email'],
-      phone: json['phone'],
-      password: json['password'],
-      isBlocked: json['isBlocked'],
-      isVerified: json['isVerified'],
-      v: json['__v'],
-    );
-  }
+//   factory CreatedBy.fromJson(Map<String, dynamic> json) {
+//     return CreatedBy(
+//       id: json['_id'],
+//       name: json['name'],
+//       email: json['email'],
+//       phone: json['phone'],
+//       password: json['password'],
+//       isBlocked: json['isBlocked'],
+//       isVerified: json['isVerified'],
+//       v: json['__v'],
+//     );
+//   }
 
-  Map<String, dynamic> toJson() {
-    return {
-      '_id': id,
-      'name': name,
-      'email': email,
-      'phone': phone,
-      'password': password,
-      'isBlocked': isBlocked,
-      'isVerified': isVerified,
-      '__v': v,
-    };
-  }
-}
+//   Map<String, dynamic> toJson() {
+//     return {
+//       '_id': id,
+//       'name': name,
+//       'email': email,
+//       'phone': phone,
+//       'password': password,
+//       'isBlocked': isBlocked,
+//       'isVerified': isVerified,
+//       '__v': v,
+//     };
+//   }
+// }

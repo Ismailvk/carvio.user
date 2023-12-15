@@ -20,8 +20,6 @@ class VehicleBloc extends Bloc<VehicleEvent, VehicleState> {
       emit(FetchAvailableVehicleErrorState(message: error.message));
     }, (response) {
       if (response['message'] == 'Success') {
-        print('&&&&&&&&&&&');
-        print(response);
         emit(FetchVehicleSuccessState());
       } else {
         emit(FetchAvailableVehicleFailedState());
@@ -31,7 +29,6 @@ class VehicleBloc extends Bloc<VehicleEvent, VehicleState> {
 
   FutureOr<void> fetchVehicleEvent(
       FetchVehicleEvent event, Emitter<VehicleState> emit) async {
-    print('hi***********************************');
     final responseData = await UserRepo().getAvailableVehicles();
     responseData.fold((error) {
       emit(FetchAvailableVehicleErrorState(message: error.message));
@@ -39,7 +36,6 @@ class VehicleBloc extends Bloc<VehicleEvent, VehicleState> {
       final List vehicleList = response['vehicles'];
       List<Vehicle> vehicleModel =
           vehicleList.map((e) => Vehicle.fromJson(e)).toList();
-      print(response);
       emit(FetchAvailableVehicleSuccessState(vehicleList: vehicleModel));
     });
   }

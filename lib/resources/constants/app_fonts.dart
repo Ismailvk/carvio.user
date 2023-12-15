@@ -10,4 +10,7 @@ class AppFonts {
 
   static TextStyle appbarSansitaFont = GoogleFonts.sansita(
       textStyle: const TextStyle(fontSize: 20, color: Colors.black));
+
+  static TextStyle sansitaFontBlack = GoogleFonts.sansita(
+      textStyle: const TextStyle(fontSize: 16, color: Colors.black));
 }

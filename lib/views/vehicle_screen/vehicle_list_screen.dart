@@ -1,6 +1,7 @@
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:lottie/lottie.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 import 'package:user_side/blocs/vehicle/vehicle_bloc.dart';
 import 'package:user_side/data/netword/api_urls.dart';
@@ -39,10 +40,25 @@ class _VehicleListScreenState extends State<VehicleListScreen> {
                 },
                 builder: (context, state) {
                   if (state is FetchAvailableVehicleSuccessState) {
+                    if (state.vehicleList.isEmpty) {
+                      return Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: Center(
+                          child: Column(
+                            children: [
+                              Lottie.asset('asset/lotties/manLottie.json'),
+                              Text('No vehicle found on this location',
+                                  style: AppFonts.sansitaFontBlack)
+                            ],
+                          ),
+                        ),
+                      );
+                    }
                     return ListView.builder(
                       itemCount: state.vehicleList.length,
                       itemBuilder: (context, index) {
                         Vehicle vehicle = state.vehicleList[index];
+
                         return Padding(
                           padding: const EdgeInsets.all(8.0),
                           child: GestureDetector(
