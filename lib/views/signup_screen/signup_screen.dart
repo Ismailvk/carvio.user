@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:loading_animation_widget/loading_animation_widget.dart';
 import 'package:user_side/blocs/signup_bloc/signup_bloc.dart';
 import 'package:user_side/resources/components/button_widget.dart';
 import 'package:user_side/resources/components/textformfield.dart';
@@ -115,7 +116,7 @@ class SignupScreen extends StatelessWidget {
                         obscureText: false,
                       ),
                       const SizedBox(height: 40),
-                      BlocListener<SignupBloc, SignupState>(
+                      BlocConsumer<SignupBloc, SignupState>(
                         listener: (context, state) {
                           if (state is SignupSuccessState) {
                             Navigator.of(context).push(
@@ -127,8 +128,16 @@ class SignupScreen extends StatelessWidget {
                             );
                           }
                         },
-                        child: ButtonWidget(
-                            title: 'Sign Up', onPress: () => signup(context)),
+                        builder: (context, state) {
+                          if (state is SignupLoadingState) {
+                            return Center(
+                              child: LoadingAnimationWidget.inkDrop(
+                                  color: AppColors.primaryColor, size: 50),
+                            );
+                          }
+                          return ButtonWidget(
+                              title: 'Sign Up', onPress: () => signup(context));
+                        },
                       ),
                       const SizedBox(height: 20),
                       Row(

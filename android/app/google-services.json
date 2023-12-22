@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "151484858138",
+    "project_id": "carvio-6f8ff",
+    "storage_bucket": "carvio-6f8ff.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:151484858138:android:794c2a17f5478ed053b6a3",
+        "android_client_info": {
+          "package_name": "com.example.user_side"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBx_s4vyU9elvFdbAGbRB61hZuvh0KRqQ4"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

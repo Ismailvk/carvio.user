@@ -12,7 +12,7 @@ class ApiService {
   static EitherResponse getApi(String url, [String? token]) async {
     if (token != null) {
       header["Authorization"] = "Bearer $token";
-      header["Cookie"] = 'jwtHost=$token';
+      header["Cookie"] = 'jwt=$token';
       header["Content-Type"] = 'application/json';
     }
     final uri = Uri.parse(url);
@@ -33,12 +33,13 @@ class ApiService {
   static EitherResponse postApi(var data, String url, [String? token]) async {
     if (token != null) {
       header["Authorization"] = "Bearer $token";
-      header["Cookie"] = 'jwtHost=$token';
+      header["Cookie"] = 'jwt=$token';
     }
     final uri = Uri.parse(url);
     final body = jsonEncode(data);
     try {
       final response = await http.post(uri, body: body, headers: header);
+      print(response.statusCode);
       final responseBody = getResponse(response);
       return Right(responseBody);
     } on SocketException {
@@ -53,7 +54,7 @@ class ApiService {
   static EitherResponse patchApi(var data, String url, [String? token]) async {
     if (token != null) {
       header["Authorization"] = "Bearer $token";
-      header["Cookie"] = 'jwtHost=$token';
+      header["Cookie"] = 'jwt=$token';
     }
     final uri = Uri.parse(url);
     final body = jsonEncode(data);
@@ -77,7 +78,7 @@ class ApiService {
   static EitherResponse deleteApi(String url, [String? token]) async {
     if (token != null) {
       header["Authorization"] = "Bearer $token";
-      header["Cookie"] = 'jwtHost=$token';
+      header["Cookie"] = 'jwt=$token';
     }
     final uri = Uri.parse(url);
     try {
@@ -99,7 +100,7 @@ class ApiService {
   static EitherResponse putApi(var data, String url, [String? token]) async {
     if (token != null) {
       header["Authorization"] = "Bearer $token";
-      header["Cookie"] = 'jwtHost=$token';
+      header["Cookie"] = 'jwt=$token';
     }
     final uri = Uri.parse(url);
     final body = jsonEncode(data);

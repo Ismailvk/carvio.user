@@ -29,4 +29,19 @@ class UserRepo {
     const url = '${ApiUrls.baseUrl}/${ApiUrls.getAvailableVehcles}';
     return ApiService.getApi(url, token);
   }
+
+  EitherResponse forgetPasswordEmailChecking(Map<String, String> data) {
+    const url = '${ApiUrls.baseUrl}/${ApiUrls.forgetPassword}';
+    return ApiService.postApi(data, url);
+  }
+
+  EitherResponse resetPassword(Map<String, String> data, String userId) {
+    final url = '${ApiUrls.baseUrl}/${ApiUrls.resetPassword}/$userId';
+    return ApiService.patchApi(data, url);
+  }
+
+  EitherResponse fetchUserData(String usertoken) {
+    const url = '${ApiUrls.baseUrl}/${ApiUrls.getUserData}';
+    return ApiService.getApi(url, usertoken);
+  }
 }

@@ -4,12 +4,12 @@ abstract class VehicleState {}
 
 final class VehicleInitial extends VehicleState {}
 
+final class FetchAvailableVehicleLoadingState extends VehicleState {}
+
 final class FetchAvailableVehicleSuccessState extends VehicleState {
   List<Vehicle> vehicleList;
   FetchAvailableVehicleSuccessState({required this.vehicleList});
 }
-
-final class VehicleFetchSuccessState extends VehicleState {}
 
 final class FetchAvailableVehicleFailedState extends VehicleState {}
 

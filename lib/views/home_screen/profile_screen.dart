@@ -1,6 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:user_side/data/shared_preference/shared_prefence.dart';
-import 'package:user_side/views/login_screen/login_screen.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:user_side/blocs/user/user_bloc.dart';
+import 'package:user_side/data/netword/api_urls.dart';
+import 'package:user_side/resources/components/divider.dart';
+import 'package:user_side/resources/components/profile_listtle_widget.dart';
+import 'package:user_side/resources/constants/app_fonts.dart';
+import 'package:user_side/views/settings_screen/settings_screen.dart';
 
 class ProfileScreen extends StatelessWidget {
   const ProfileScreen({super.key});
@@ -8,94 +13,70 @@ class ProfileScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Center(
-        child: ElevatedButton(
-            child: const Text('Log'),
-            onPressed: () {
-              showDialog(
-                context: context,
-                barrierColor: Colors.black.withOpacity(0.7),
-                barrierDismissible: true,
-                builder: (BuildContext context) {
-                  return Center(
-                    child: Material(
-                      color: Colors.transparent,
-                      child: Container(
-                        width: 250,
-                        margin: const EdgeInsets.symmetric(horizontal: 10),
-                        decoration: BoxDecoration(
-                          color: Colors.white,
-                          borderRadius: BorderRadius.circular(20),
-                          boxShadow: [
-                            BoxShadow(
-                              color: Colors.grey.withOpacity(0.5),
-                              spreadRadius: 3,
-                              blurRadius: 7,
-                              offset: const Offset(0, 3),
+      appBar: AppBar(
+          title: Text('Profile', style: AppFonts.appbarTitle),
+          elevation: 0,
+          centerTitle: true),
+      body: Column(
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: [
+          Container(
+            padding: const EdgeInsets.only(top: 10),
+            alignment: Alignment.topCenter,
+            child: BlocBuilder<UserBloc, UserState>(
+              builder: (context, state) {
+                if (state is FetchUserDataSuccessState) {
+                  final image = state.userModel.profile;
+                  print(image);
+                  return image == null
+                      ? CircleAvatar(
+                          radius: 45,
+                          child: Image.asset('asset/images/user.png'),
+                        )
+                      : SizedBox(
+                          height: MediaQuery.of(context).size.height / 9.5,
+                          width: MediaQuery.of(context).size.width / 4.5,
+                          child: ClipRRect(
+                            borderRadius: BorderRadius.circular(60),
+                            child: Image.network(
+                              '${ApiUrls.baseUrl}/$image',
+                              fit: BoxFit.cover,
                             ),
-                          ],
-                        ),
-                        child: Column(
-                          mainAxisSize: MainAxisSize.min,
-                          children: [
-                            const SizedBox(height: 20),
-                            const Icon(
-                              Icons.info,
-                              color: Colors.red,
-                              size: 60,
-                            ),
-                            const SizedBox(height: 20),
-                            const Text(
-                              'Logout !',
-                              style: TextStyle(
-                                fontSize: 22,
-                                fontWeight: FontWeight.bold,
-                              ),
-                            ),
-                            const SizedBox(height: 10),
-                            const Padding(
-                              padding: EdgeInsets.symmetric(horizontal: 40),
-                              child: Text(
-                                'Do you want logout ?',
-                                textAlign: TextAlign.center,
-                                style: TextStyle(fontSize: 16),
-                              ),
-                            ),
-                            const SizedBox(height: 20),
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                              children: [
-                                ElevatedButton(
-                                  style: const ButtonStyle(
-                                      backgroundColor: MaterialStatePropertyAll(
-                                          Colors.grey)),
-                                  onPressed: () {
-                                    Navigator.of(context).pop();
-                                  },
-                                  child: const Text('Close'),
-                                ),
-                                ElevatedButton(
-                                  onPressed: () {
-                                    SharedPref.instance.removeToken();
-                                    Navigator.of(context).pushAndRemoveUntil(
-                                        MaterialPageRoute(
-                                            builder: (context) =>
-                                                LoginScreen()),
-                                        (route) => false);
-                                  },
-                                  child: const Text('Ok'),
-                                ),
-                              ],
-                            ),
-                            const SizedBox(height: 20),
-                          ],
-                        ),
-                      ),
-                    ),
-                  );
-                },
-              );
-            }),
+                          ),
+                        );
+                }
+                return const SizedBox.shrink();
+              },
+            ),
+          ),
+          const SizedBox(height: 5),
+          BlocBuilder<UserBloc, UserState>(
+            builder: (context, state) {
+              if (state is FetchUserDataSuccessState) {
+                final data = state.userModel;
+                return Text(data.name.toUpperCase(),
+                    style: AppFonts.sansitaFont);
+              }
+              return const SizedBox.shrink();
+            },
+          ),
+          const SizedBox(height: 5),
+          const ListTileWidget(
+              imageString: 'asset/svg/user.svg', title: 'Profile'),
+          const DivederWidget(),
+          const ListTileWidget(
+              imageString: 'asset/svg/key.svg', title: 'Privacy'),
+          const DivederWidget(),
+          const ListTileWidget(
+              imageString: 'asset/svg/alert.svg', title: 'Help & info'),
+          const DivederWidget(),
+          GestureDetector(
+            onTap: () => Navigator.of(context).push(
+                MaterialPageRoute(builder: (context) => const SettingScreen())),
+            child: const ListTileWidget(
+                imageString: 'asset/svg/settings.svg', title: 'Settings'),
+          ),
+        ],
       ),
     );
   }

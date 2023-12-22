@@ -18,7 +18,7 @@ SnackBar customSnackbar(context, bool error, String messege) {
   );
 }
 
-Future<dynamic> topSnackbar(BuildContext context, String message, Color color) {
+topSnackbar(BuildContext context, String message, Color color) {
   return Flushbar(
     message: message,
     icon: const Icon(

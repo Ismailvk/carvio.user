@@ -1,5 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:user_side/blocs/user/user_bloc.dart';
 import 'package:user_side/data/shared_preference/shared_prefence.dart';
+import 'package:user_side/resources/constants/app_color.dart';
+import 'package:user_side/utils/custom_snackbar.dart';
 import 'package:user_side/views/bottom_navbar_screen/bottom_navigation_bar.dart';
 import 'package:user_side/views/login_screen/login_screen.dart';
 
@@ -9,9 +13,24 @@ class SplashScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     logincheck(context);
-    return const Scaffold(
-      body: Center(
-        child: Text('CARVIO'),
+    return Scaffold(
+      body: BlocListener<UserBloc, UserState>(
+        listener: (context, state) {
+          if (state is FetchUserDataSuccessState) {
+            Navigator.of(context).pushReplacement(
+                MaterialPageRoute(builder: (context) => const ScreenParant()));
+          } else if (state is FetchUserDataErrorState) {
+            Navigator.of(context).pushReplacement(
+                MaterialPageRoute(builder: (context) => LoginScreen()));
+          } else if (state is FetchUserDataFailedState) {
+            topSnackbar(context, 'Please login your account', AppColors.red);
+            Navigator.of(context).pushReplacement(
+                MaterialPageRoute(builder: (context) => LoginScreen()));
+          }
+        },
+        child: const Center(
+          child: Text('CARVIO'),
+        ),
       ),
     );
   }
@@ -22,9 +41,7 @@ class SplashScreen extends StatelessWidget {
     print(token);
     if (token != null) {
       // ignore: use_build_context_synchronously
-      Navigator.of(context).pushAndRemoveUntil(
-          MaterialPageRoute(builder: (context) => const ScreenParant()),
-          (route) => false);
+      context.read<UserBloc>().add(FetchUserDataEvent(token: token));
     } else {
       // ignore: use_build_context_synchronously
       Navigator.of(context).pushAndRemoveUntil(

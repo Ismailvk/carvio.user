@@ -1,3 +1,55 @@
+class HostDetails {
+  String id;
+  String name;
+  String email;
+  int phone;
+  String password;
+  bool isBlocked;
+  bool isVerified;
+  int v;
+  String profile;
+
+  HostDetails({
+    required this.id,
+    required this.name,
+    required this.email,
+    required this.phone,
+    required this.password,
+    required this.isBlocked,
+    required this.isVerified,
+    required this.v,
+    required this.profile,
+  });
+
+  factory HostDetails.fromJson(Map<String, dynamic> json) {
+    return HostDetails(
+      id: json['_id'],
+      name: json['name'],
+      email: json['email'],
+      phone: json['phone'],
+      password: json['password'],
+      isBlocked: json['isBlocked'],
+      isVerified: json['isVerified'],
+      v: json['__v'],
+      profile: json['profile'],
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    return {
+      '_id': id,
+      'name': name,
+      'email': email,
+      'phone': phone,
+      'password': password,
+      'isBlocked': isBlocked,
+      'isVerified': isVerified,
+      '__v': v,
+      'profile': profile,
+    };
+  }
+}
+
 class Vehicle {
   String id;
   String name;
@@ -14,6 +66,7 @@ class Vehicle {
   int v;
   String document;
   List<String> bookings;
+  HostDetails hostDetails; // Add hostDetails field
 
   Vehicle({
     required this.id,
@@ -31,9 +84,9 @@ class Vehicle {
     required this.v,
     required this.document,
     required this.bookings,
+    required this.hostDetails, // Add this line
   });
 
-  // Factory method to create a Vehicle instance from a JSON object
   factory Vehicle.fromJson(Map<String, dynamic> json) {
     return Vehicle(
       id: json['_id'],
@@ -51,10 +104,10 @@ class Vehicle {
       v: json['__v'],
       document: json['document'],
       bookings: List<String>.from(json['bookings']),
+      hostDetails: HostDetails.fromJson(json['hostDetails']), // Add this line
     );
   }
 
-  // Method to convert a Vehicle instance to a JSON object
   Map<String, dynamic> toJson() {
     return {
       '_id': id,
@@ -72,54 +125,7 @@ class Vehicle {
       '__v': v,
       'document': document,
       'bookings': bookings,
+      'hostDetails': hostDetails.toJson(), // Add this line
     };
   }
 }
-
-// class CreatedBy {
-//   String id;
-//   String name;
-//   String email;
-//   int phone;
-//   String password;
-//   bool isBlocked;
-//   bool isVerified;
-//   int v;
-
-//   CreatedBy({
-//     required this.id,
-//     required this.name,
-//     required this.email,
-//     required this.phone,
-//     required this.password,
-//     required this.isBlocked,
-//     required this.isVerified,
-//     required this.v,
-//   });
-
-//   factory CreatedBy.fromJson(Map<String, dynamic> json) {
-//     return CreatedBy(
-//       id: json['_id'],
-//       name: json['name'],
-//       email: json['email'],
-//       phone: json['phone'],
-//       password: json['password'],
-//       isBlocked: json['isBlocked'],
-//       isVerified: json['isVerified'],
-//       v: json['__v'],
-//     );
-//   }
-
-//   Map<String, dynamic> toJson() {
-//     return {
-//       '_id': id,
-//       'name': name,
-//       'email': email,
-//       'phone': phone,
-//       'password': password,
-//       'isBlocked': isBlocked,
-//       'isVerified': isVerified,
-//       '__v': v,
-//     };
-//   }
-// }

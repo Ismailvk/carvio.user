@@ -16,6 +16,8 @@ final class SignupErrorState extends SignupState {
   SignupErrorState({required this.message});
 }
 
+final class OtpLoadingState extends SignupState {}
+
 final class OtpSuccessState extends SignupState {}
 
 final class OtpFailedState extends SignupState {}

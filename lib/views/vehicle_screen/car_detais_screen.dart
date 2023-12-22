@@ -26,7 +26,6 @@ class _CarDetailsScreenState extends State<CarDetailsScreen> {
   ];
 
   int activeIndex = 0;
-  // int cardIndex = 0;
 
   @override
   Widget build(BuildContext context) {

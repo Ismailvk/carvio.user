@@ -9,7 +9,7 @@ import 'package:user_side/models/vehicle_model.dart';
 import 'package:user_side/resources/components/appbar.dart';
 import 'package:user_side/resources/components/icon_svg_widget.dart';
 import 'package:user_side/resources/constants/app_fonts.dart';
-import 'package:user_side/views/car_detais_screen.dart';
+import 'package:user_side/views/vehicle_screen/car_detais_screen.dart';
 
 class VehicleListScreen extends StatefulWidget {
   const VehicleListScreen({super.key});

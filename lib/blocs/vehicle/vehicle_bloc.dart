@@ -14,6 +14,7 @@ class VehicleBloc extends Bloc<VehicleEvent, VehicleState> {
 
   FutureOr<void> fetchAvailableVehicle(
       FetchAvailableVehicleEvent event, Emitter<VehicleState> emit) async {
+    emit(FetchAvailableVehicleLoadingState());
     final responseData =
         await UserRepo().putAvailableVehicle(event.checkingData);
     responseData.fold((error) {
@@ -29,6 +30,7 @@ class VehicleBloc extends Bloc<VehicleEvent, VehicleState> {
 
   FutureOr<void> fetchVehicleEvent(
       FetchVehicleEvent event, Emitter<VehicleState> emit) async {
+    emit(FetchAvailableVehicleLoadingState());
     final responseData = await UserRepo().getAvailableVehicles();
     responseData.fold((error) {
       emit(FetchAvailableVehicleErrorState(message: error.message));

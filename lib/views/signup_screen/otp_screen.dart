@@ -2,11 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_icon_snackbar/flutter_icon_snackbar.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:loading_animation_widget/loading_animation_widget.dart';
 import 'package:user_side/blocs/signup_bloc/signup_bloc.dart';
 import 'package:user_side/resources/components/button_widget.dart';
 import 'package:user_side/resources/components/otp_textfield.dart';
 import 'package:user_side/resources/constants/app_color.dart';
-import 'package:user_side/views/home_screen/home_screen.dart';
+import 'package:user_side/views/bottom_navbar_screen/bottom_navigation_bar.dart';
 
 // ignore: must_be_immutable
 class SignupOtpScreen extends StatelessWidget {
@@ -103,7 +104,7 @@ class SignupOtpScreen extends StatelessWidget {
                               ),
                             ),
                             const SizedBox(height: 30),
-                            BlocListener<SignupBloc, SignupState>(
+                            BlocConsumer<SignupBloc, SignupState>(
                               listener: (context, state) {
                                 if (state is OtpErrorState) {
                                   IconSnackBar.show(
@@ -122,13 +123,22 @@ class SignupOtpScreen extends StatelessWidget {
                                 Navigator.of(context).pushAndRemoveUntil(
                                     MaterialPageRoute(
                                         builder: (context) =>
-                                            const HomeScreen()),
+                                            const ScreenParant()),
                                     (route) => false);
                               },
-                              child: ButtonWidget(
-                                title: 'Submit',
-                                onPress: () => signUp(context),
-                              ),
+                              builder: (context, state) {
+                                if (state is OtpLoadingState) {
+                                  return Center(
+                                    child: LoadingAnimationWidget.inkDrop(
+                                        color: AppColors.primaryColor,
+                                        size: 50),
+                                  );
+                                }
+                                return ButtonWidget(
+                                  title: 'Submit',
+                                  onPress: () => signUp(context),
+                                );
+                              },
                             ),
                           ],
                         ),

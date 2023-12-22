@@ -5,4 +5,7 @@ class ApiUrls {
   static const String otp = 'user/verify-otp';
   static const String putAvailableVehicles = 'user/store-choice';
   static const String getAvailableVehcles = 'user/vehicles';
+  static const String forgetPassword = 'user/forgot-password';
+  static const String resetPassword = 'user/reset-password';
+  static const String getUserData = 'user/getuser';
 }

@@ -8,6 +8,7 @@ import 'package:user_side/resources/components/textformfield.dart';
 import 'package:user_side/resources/constants/app_color.dart';
 import 'package:user_side/utils/validation.dart';
 import 'package:user_side/views/bottom_navbar_screen/bottom_navigation_bar.dart';
+import 'package:user_side/views/forget_password_screen.dart/forget_password.dart';
 import 'package:user_side/views/signup_screen/signup_screen.dart';
 
 // ignore: must_be_immutable
@@ -104,6 +105,10 @@ class LoginScreen extends StatelessWidget {
                           mainAxisAlignment: MainAxisAlignment.end,
                           children: [
                             GestureDetector(
+                              onTap: () => Navigator.of(context).push(
+                                  MaterialPageRoute(
+                                      builder: (context) =>
+                                          ForgetPasswordScreen())),
                               child: const Text(
                                 'Forgot Password?',
                                 style: TextStyle(
