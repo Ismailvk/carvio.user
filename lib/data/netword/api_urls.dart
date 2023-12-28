@@ -8,4 +8,6 @@ class ApiUrls {
   static const String forgetPassword = 'user/forgot-password';
   static const String resetPassword = 'user/reset-password';
   static const String getUserData = 'user/getuser';
+  static const String changePassword = 'user/change-password';
+  static const String bookVehicle = 'user/book-vehicle';
 }

@@ -4,6 +4,7 @@ import 'package:user_side/resources/components/divider.dart';
 import 'package:user_side/resources/components/profile_listtle_widget.dart';
 import 'package:user_side/resources/constants/app_fonts.dart';
 import 'package:user_side/utils/show_dialogue.dart';
+import 'package:user_side/views/change_password/change_password.dart';
 
 class SettingScreen extends StatelessWidget {
   const SettingScreen({super.key});
@@ -25,8 +26,14 @@ class SettingScreen extends StatelessWidget {
           const ListTileWidget(
               imageString: 'asset/svg/user.svg', title: 'Edit Profile'),
           const DivederWidget(),
-          const ListTileWidget(
-              imageString: 'asset/svg/key.svg', title: 'Cange Password'),
+          GestureDetector(
+            onTap: () {
+              Navigator.of(context).push(MaterialPageRoute(
+                  builder: (context) => ChangePasswordScreen()));
+            },
+            child: const ListTileWidget(
+                imageString: 'asset/svg/key.svg', title: 'Cange Password'),
+          ),
           const DivederWidget(),
           GestureDetector(
             onTap: () => ShowDialogue.dialogue(context, Colors.red, 'Logout',

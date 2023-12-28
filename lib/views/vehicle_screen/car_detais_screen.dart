@@ -1,6 +1,7 @@
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
+import 'package:user_side/data/netword/api_urls.dart';
 import 'package:user_side/models/vehicle_model.dart';
 import 'package:user_side/resources/components/backbutton_widget.dart';
 import 'package:user_side/resources/components/medium_button_widget.dart';
@@ -9,17 +10,24 @@ import 'package:user_side/resources/components/small_card_widget.dart';
 import 'package:user_side/resources/components/sub_title_widget.dart';
 import 'package:user_side/resources/constants/app_color.dart';
 import 'package:user_side/resources/constants/app_fonts.dart';
+import 'package:user_side/views/payment_screen/payment_screen.dart';
 
 class CarDetailsScreen extends StatefulWidget {
   final Vehicle vehicleData;
-  const CarDetailsScreen({super.key, required this.vehicleData});
+  final String startingDate;
+  final String endingDate;
+  const CarDetailsScreen(
+      {super.key,
+      required this.vehicleData,
+      required this.startingDate,
+      required this.endingDate});
 
   @override
   State<CarDetailsScreen> createState() => _CarDetailsScreenState();
 }
 
 class _CarDetailsScreenState extends State<CarDetailsScreen> {
-  List items = [
+  List item = [
     Image.asset('asset/images/rangerrover.png'),
     Image.asset('asset/images/rangerrover.png'),
     Image.asset('asset/images/rangerrover.png'),
@@ -50,14 +58,12 @@ class _CarDetailsScreenState extends State<CarDetailsScreen> {
                     children: [
                       const BackButtonWidget(),
                       CarouselSlider(
-                        items: [
-                          Image.asset('asset/images/rangerrover.png',
-                              fit: BoxFit.cover),
-                          Image.asset('asset/images/rangerrover.png',
-                              fit: BoxFit.cover),
-                          Image.asset('asset/images/rangerrover.png',
-                              fit: BoxFit.cover),
-                        ],
+                        items: widget.vehicleData.images
+                            .map((e) => Image.network(
+                                  '${ApiUrls.baseUrl}/$e',
+                                  fit: BoxFit.cover,
+                                ))
+                            .toList(),
                         options: CarouselOptions(
                           onPageChanged: (index, reason) {
                             setState(() {
@@ -75,7 +81,7 @@ class _CarDetailsScreenState extends State<CarDetailsScreen> {
                   child: AnimatedSmoothIndicator(
                       effect: const WormEffect(dotHeight: 10, dotWidth: 10),
                       activeIndex: activeIndex,
-                      count: items.length),
+                      count: item.length),
                 )
               ],
             ),
@@ -106,17 +112,22 @@ class _CarDetailsScreenState extends State<CarDetailsScreen> {
               child: Row(
                 children: [
                   ClipRRect(
-                    borderRadius: BorderRadius.circular(50),
-                    child: Image.asset(
-                      'asset/images/person2.jpg',
-                      height: 60,
-                      width: 60,
-                      fit: BoxFit.cover,
-                    ),
-                  ),
+                      borderRadius: BorderRadius.circular(50),
+                      child: widget.vehicleData.hostDetails.profile != null
+                          ? Image.network(
+                              '${ApiUrls.baseUrl}/${widget.vehicleData.hostDetails.profile}',
+                              height: MediaQuery.of(context).size.height / 13,
+                              width: MediaQuery.of(context).size.width / 6,
+                            )
+                          : Image.asset(
+                              'asset/images/person2.jpg',
+                              height: 60,
+                              width: 60,
+                              fit: BoxFit.cover,
+                            )),
                   const SizedBox(width: 20),
                   Text(
-                    widget.vehicleData.location,
+                    widget.vehicleData.hostDetails.name,
                     style: AppFonts.sansitaFont,
                   ),
                   const Spacer(),
@@ -128,16 +139,26 @@ class _CarDetailsScreenState extends State<CarDetailsScreen> {
                 ],
               ),
             ),
-            const Padding(
-              padding: EdgeInsets.symmetric(horizontal: 10, vertical: 10),
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
               child: Row(
                 children: [
-                  Padding(
+                  const Padding(
                     padding: EdgeInsets.only(left: 70),
                     child: Icon(Icons.favorite_border, size: 40),
                   ),
-                  Spacer(),
-                  MediumButtonWidget(title: 'Book Now')
+                  const Spacer(),
+                  MediumButtonWidget(
+                    title: 'Book Now',
+                    onPress: () {
+                      Navigator.of(context).push(MaterialPageRoute(
+                          builder: (context) => PaymentScreen(
+                                vehicle: widget.vehicleData,
+                                startingDate: widget.startingDate,
+                                endingDate: widget.endingDate,
+                              )));
+                    },
+                  )
                 ],
               ),
             )

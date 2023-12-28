@@ -4,6 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:user_side/blocs/forget_password/forget_password_bloc.dart';
 import 'package:user_side/blocs/login_bloc/login_bloc.dart';
 import 'package:user_side/blocs/map_bloc/map_bloc.dart';
+import 'package:user_side/blocs/payment/payment_bloc.dart';
 import 'package:user_side/blocs/signup_bloc/signup_bloc.dart';
 import 'package:user_side/blocs/user/user_bloc.dart';
 import 'package:user_side/blocs/vehicle/vehicle_bloc.dart';
@@ -17,7 +18,6 @@ void main() async {
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
-
   await SharedPref.instance.initStorage();
   runApp(const MyApp());
 }
@@ -38,6 +38,7 @@ class MyApp extends StatelessWidget {
         BlocProvider<VehicleBloc>(create: (context) => VehicleBloc()),
         BlocProvider<ForgetPasswordBloc>(
             create: (context) => ForgetPasswordBloc()),
+        BlocProvider<PaymentBloc>(create: (context) => PaymentBloc()),
       ],
       child: MaterialApp(
         title: 'Carnova User',

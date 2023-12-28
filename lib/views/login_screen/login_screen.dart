@@ -138,7 +138,7 @@ class LoginScreen extends StatelessWidget {
                           } else if (state is LoginSuccessState) {
                             Navigator.of(context).pushAndRemoveUntil(
                                 MaterialPageRoute(
-                                    builder: (context) => const ScreenParant()),
+                                    builder: (context) => ScreenParant()),
                                 (route) => false);
                             IconSnackBar.show(
                                 direction: DismissDirection.up,

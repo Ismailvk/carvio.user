@@ -3,7 +3,8 @@ import 'package:google_fonts/google_fonts.dart';
 
 class SubTitleWidget extends StatelessWidget {
   final String title;
-  const SubTitleWidget({super.key, required this.title});
+  final double? fontsize;
+  const SubTitleWidget({super.key, required this.title, this.fontsize});
 
   @override
   Widget build(BuildContext context) {
@@ -12,8 +13,8 @@ class SubTitleWidget extends StatelessWidget {
       child: Text(
         title,
         style: GoogleFonts.inriaSans(
-            textStyle:
-                const TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
+            textStyle: TextStyle(
+                fontSize: fontsize ?? 20, fontWeight: FontWeight.bold)),
       ),
     );
   }

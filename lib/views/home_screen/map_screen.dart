@@ -139,7 +139,8 @@ class BookingMapScreen extends StatelessWidget {
                   if (state is FetchAvailableVehicleSuccessState) {
                     Navigator.of(context).push(
                       MaterialPageRoute(
-                        builder: (context) => const VehicleListScreen(),
+                        builder: (context) => VehicleListScreen(
+                            startingDate: startingDate, endingDate: endingDate),
                       ),
                     );
                   }

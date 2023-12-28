@@ -12,7 +12,10 @@ import 'package:user_side/resources/constants/app_fonts.dart';
 import 'package:user_side/views/vehicle_screen/car_detais_screen.dart';
 
 class VehicleListScreen extends StatefulWidget {
-  const VehicleListScreen({super.key});
+  final String startingDate;
+  final String endingDate;
+  const VehicleListScreen(
+      {super.key, required this.startingDate, required this.endingDate});
 
   @override
   State<VehicleListScreen> createState() => _VehicleListScreenState();
@@ -62,10 +65,13 @@ class _VehicleListScreenState extends State<VehicleListScreen> {
                         return Padding(
                           padding: const EdgeInsets.all(8.0),
                           child: GestureDetector(
-                            onTap: () => Navigator.of(context).push(
-                                MaterialPageRoute(
+                            onTap: () =>
+                                Navigator.of(context).push(MaterialPageRoute(
                                     builder: (context) => CarDetailsScreen(
-                                        vehicleData: vehicle))),
+                                          vehicleData: vehicle,
+                                          startingDate: widget.startingDate,
+                                          endingDate: widget.endingDate,
+                                        ))),
                             child: Card(
                               elevation: 0,
                               color: Colors.grey.shade200,
@@ -140,7 +146,7 @@ class _VehicleListScreenState extends State<VehicleListScreen> {
                                               0.19,
                                       child: Padding(
                                         padding: const EdgeInsets.symmetric(
-                                            horizontal: 20, vertical: 10),
+                                            horizontal: 17, vertical: 10),
                                         child: Column(
                                           crossAxisAlignment:
                                               CrossAxisAlignment.start,

@@ -5,6 +5,7 @@ import 'package:user_side/views/home_screen/history_screen.dart';
 import 'package:user_side/views/home_screen/home_screen.dart';
 import 'package:user_side/views/home_screen/profile_screen.dart';
 
+// ignore: must_be_immutable
 class ScreenParant extends StatefulWidget {
   const ScreenParant({super.key});
 

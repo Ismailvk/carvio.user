@@ -14,7 +14,7 @@ class SplashScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     logincheck(context);
     return Scaffold(
-      body: BlocListener<UserBloc, UserState>(
+      body: BlocConsumer<UserBloc, UserState>(
         listener: (context, state) {
           if (state is FetchUserDataSuccessState) {
             Navigator.of(context).pushReplacement(
@@ -28,9 +28,11 @@ class SplashScreen extends StatelessWidget {
                 MaterialPageRoute(builder: (context) => LoginScreen()));
           }
         },
-        child: const Center(
-          child: Text('CARVIO'),
-        ),
+        builder: (context, state) {
+          return const Center(
+            child: Text('CARVIO'),
+          );
+        },
       ),
     );
   }

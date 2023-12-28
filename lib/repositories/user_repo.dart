@@ -44,4 +44,14 @@ class UserRepo {
     const url = '${ApiUrls.baseUrl}/${ApiUrls.getUserData}';
     return ApiService.getApi(url, usertoken);
   }
+
+  EitherResponse changePassword(Map<String, String> passwordData) {
+    const url = '${ApiUrls.baseUrl}/${ApiUrls.changePassword}';
+    return ApiService.patchApi(passwordData, url, token);
+  }
+
+  EitherResponse bookvehicle(Map<String, dynamic> bookingData) {
+    const url = '${ApiUrls.baseUrl}/${ApiUrls.bookVehicle}';
+    return ApiService.postApi(bookingData, url, token);
+  }
 }

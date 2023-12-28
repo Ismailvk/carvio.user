@@ -7,3 +7,14 @@ final class FetchUserDataEvent extends UserEvent {
 
   FetchUserDataEvent({required this.token});
 }
+
+final class ResetPasswordEvent extends UserEvent {
+  final String oldPassword;
+  final String newPassword;
+  final String confirmPassword;
+
+  ResetPasswordEvent(
+      {required this.oldPassword,
+      required this.newPassword,
+      required this.confirmPassword});
+}

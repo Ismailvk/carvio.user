@@ -122,8 +122,7 @@ class SignupOtpScreen extends StatelessWidget {
                                 }
                                 Navigator.of(context).pushAndRemoveUntil(
                                     MaterialPageRoute(
-                                        builder: (context) =>
-                                            const ScreenParant()),
+                                        builder: (context) => ScreenParant()),
                                     (route) => false);
                               },
                               builder: (context, state) {
