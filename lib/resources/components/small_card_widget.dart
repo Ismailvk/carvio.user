@@ -4,8 +4,9 @@ import 'package:user_side/resources/constants/app_color.dart';
 class SmallCardWidget extends StatelessWidget {
   final String title;
   final String subtitle;
+  final Color? color;
   const SmallCardWidget(
-      {super.key, required this.title, required this.subtitle});
+      {super.key, required this.title, required this.subtitle, this.color});
 
   @override
   Widget build(BuildContext context) {
@@ -13,7 +14,7 @@ class SmallCardWidget extends StatelessWidget {
       height: MediaQuery.of(context).size.height * 0.16,
       width: MediaQuery.of(context).size.width * 0.55,
       child: Card(
-        color: AppColors.cardGreyColor,
+        color: color ?? AppColors.cardGreyColor,
         child: Column(
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: [

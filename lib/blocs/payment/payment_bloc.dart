@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:razorpay_flutter/razorpay_flutter.dart';
+import 'package:user_side/data/get_it/get_it.dart';
 import 'package:user_side/repositories/user_repo.dart';
 part 'payment_event.dart';
 part 'payment_state.dart';
@@ -10,6 +11,7 @@ class PaymentBloc extends Bloc<PaymentEvent, PaymentState> {
     on<PaymentInitialEvent>(paymentinitialEvent);
     on<PaymentSuccessEvent>(paymentSuccessEvent);
     on<PaymentFailedEvent>(paymentFailedEvent);
+    on<PaymentRefundEvent>(paymentRefundEvent);
   }
   Map<String, dynamic> bookingData = {};
 
@@ -54,13 +56,10 @@ class PaymentBloc extends Bloc<PaymentEvent, PaymentState> {
 
   FutureOr<void> paymentSuccessEvent(
       PaymentSuccessEvent event, Emitter<PaymentState> emit) async {
-    print('called');
     final response = await UserRepo().bookvehicle(bookingData);
     response.fold((error) {
-      print(error.message);
       emit(PaymentErrorState(message: error.message));
     }, (response) {
-      print(response);
       emit(PaymentSuccessState());
     });
   }
@@ -68,5 +67,25 @@ class PaymentBloc extends Bloc<PaymentEvent, PaymentState> {
   FutureOr<void> paymentFailedEvent(
       PaymentFailedEvent event, Emitter<PaymentState> emit) {
     emit(PaymentFailedState());
+  }
+
+  Future<FutureOr<void>> paymentRefundEvent(
+      PaymentRefundEvent event, Emitter<PaymentState> emit) async {
+    final refundData = {'reason': event.reason, 'amount': event.amount};
+    final response = await UserRepo().refundAmount(refundData, event.paymentId);
+    response.fold((error) {
+      emit(PaymentRefundErrorState(message: error.message));
+    }, (response) {
+      if (response['message'] == "Success") {
+        int amount = globalUserModel.wallet ?? 0;
+        print('*************');
+        print(amount);
+        globalUserModel.wallet = amount + event.amount.toInt();
+        print(globalUserModel.wallet);
+        emit(PaymentRefundSuccessState());
+      } else {
+        emit(PaymentRefundFailedState());
+      }
+    });
   }
 }

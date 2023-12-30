@@ -27,7 +27,6 @@ class ProfileScreen extends StatelessWidget {
               builder: (context, state) {
                 if (state is FetchUserDataSuccessState) {
                   final image = state.userModel.profile;
-                  print(image);
                   return image == null
                       ? CircleAvatar(
                           radius: 45,

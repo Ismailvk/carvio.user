@@ -11,11 +11,15 @@ import 'package:user_side/resources/components/icon_svg_widget.dart';
 import 'package:user_side/resources/constants/app_fonts.dart';
 import 'package:user_side/views/vehicle_screen/car_detais_screen.dart';
 
+// ignore: must_be_immutable
 class VehicleListScreen extends StatefulWidget {
   final String startingDate;
   final String endingDate;
-  const VehicleListScreen(
-      {super.key, required this.startingDate, required this.endingDate});
+  VehicleListScreen({
+    super.key,
+    required this.startingDate,
+    required this.endingDate,
+  });
 
   @override
   State<VehicleListScreen> createState() => _VehicleListScreenState();

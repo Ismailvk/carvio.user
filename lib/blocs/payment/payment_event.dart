@@ -23,6 +23,17 @@ final class PaymentInitialEvent extends PaymentEvent {
       required this.grandTotal});
 }
 
+final class CheckBoxClickedEvent extends PaymentEvent {}
+
+final class PaymentRefundEvent extends PaymentEvent {
+  final String paymentId;
+  final double amount;
+  final String reason;
+
+  PaymentRefundEvent(
+      {required this.paymentId, required this.amount, required this.reason});
+}
+
 final class PaymentStartEvent extends PaymentEvent {}
 
 final class PaymentSuccessEvent extends PaymentEvent {}

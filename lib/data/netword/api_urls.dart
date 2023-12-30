@@ -10,4 +10,6 @@ class ApiUrls {
   static const String getUserData = 'user/getuser';
   static const String changePassword = 'user/change-password';
   static const String bookVehicle = 'user/book-vehicle';
+  static const String getBooking = 'user/user-booking';
+  static const String refundAmount = 'user/cancel-booking';
 }

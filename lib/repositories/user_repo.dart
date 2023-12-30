@@ -54,4 +54,15 @@ class UserRepo {
     const url = '${ApiUrls.baseUrl}/${ApiUrls.bookVehicle}';
     return ApiService.postApi(bookingData, url, token);
   }
+
+  EitherResponse getBookingData() {
+    const url = '${ApiUrls.baseUrl}/${ApiUrls.getBooking}';
+    return ApiService.getApi(url, token);
+  }
+
+  EitherResponse refundAmount(
+      Map<String, dynamic> refundData, String bookingId) {
+    final url = '${ApiUrls.baseUrl}/${ApiUrls.refundAmount}/$bookingId';
+    return ApiService.patchApi(refundData, url);
+  }
 }

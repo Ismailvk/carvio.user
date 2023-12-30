@@ -22,6 +22,7 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
       if (token != null) {
         SharedPref.instance.storeToken(token);
         userBloc.add(FetchUserDataEvent(token: token));
+        userBloc.add(FetchBookingDataEvent());
         emit(LoginSuccessState());
       } else {
         emit(LoginFailedState());

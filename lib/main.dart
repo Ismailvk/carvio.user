@@ -8,6 +8,7 @@ import 'package:user_side/blocs/payment/payment_bloc.dart';
 import 'package:user_side/blocs/signup_bloc/signup_bloc.dart';
 import 'package:user_side/blocs/user/user_bloc.dart';
 import 'package:user_side/blocs/vehicle/vehicle_bloc.dart';
+import 'package:user_side/data/get_it/get_it.dart';
 import 'package:user_side/data/shared_preference/shared_prefence.dart';
 import 'package:user_side/firebase_options.dart';
 import 'package:user_side/resources/constants/app_color.dart';
@@ -19,6 +20,7 @@ void main() async {
     options: DefaultFirebaseOptions.currentPlatform,
   );
   await SharedPref.instance.initStorage();
+  setupLocator();
   runApp(const MyApp());
 }
 

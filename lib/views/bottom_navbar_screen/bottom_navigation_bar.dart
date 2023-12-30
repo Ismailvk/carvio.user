@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:user_side/blocs/user/user_bloc.dart';
+import 'package:user_side/data/shared_preference/shared_prefence.dart';
 import 'package:user_side/resources/constants/app_color.dart';
 import 'package:user_side/views/home_screen/add_booking_screen.dart';
 import 'package:user_side/views/home_screen/history_screen.dart';
@@ -35,6 +38,12 @@ class _ScreenParantState extends State<ScreenParant> {
           child: NavBar(
             pageIndex: currentPage,
             ontap: (index) {
+              final token = SharedPref.instance.getToke();
+              if (index == 2) {
+                context.read<UserBloc>().add(FetchBookingDataEvent());
+              } else if (index == 3) {
+                context.read<UserBloc>().add(FetchUserDataEvent(token: token!));
+              }
               setState(() {
                 currentPage = index;
               });

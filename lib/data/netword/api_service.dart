@@ -39,7 +39,6 @@ class ApiService {
     final body = jsonEncode(data);
     try {
       final response = await http.post(uri, body: body, headers: header);
-      print(response.statusCode);
       final responseBody = getResponse(response);
       return Right(responseBody);
     } on SocketException {

@@ -6,6 +6,12 @@ class AppFonts {
   static TextStyle sansitaFont = GoogleFonts.sansita(
       textStyle: const TextStyle(fontSize: 17, color: Colors.black));
 
+  static TextStyle sansitaFontred = GoogleFonts.sansita(
+      textStyle: const TextStyle(fontSize: 17, color: Colors.red));
+
+  static TextStyle sansitaFontWhite = GoogleFonts.sansita(
+      textStyle: const TextStyle(fontSize: 17, color: Colors.white));
+
   static TextStyle sansitaFontGrey = GoogleFonts.sansita(
       textStyle: TextStyle(fontSize: 16, color: Colors.grey.shade600));
 
@@ -20,6 +26,9 @@ class AppFonts {
 
   static TextStyle popinsSub =
       GoogleFonts.poppins(textStyle: const TextStyle(color: Colors.black));
+
+  static TextStyle popinsGreen = GoogleFonts.poppins(
+      textStyle: const TextStyle(color: Colors.green, fontSize: 17));
 
   static TextStyle popinsSubRed =
       GoogleFonts.poppins(textStyle: const TextStyle(color: Colors.red));

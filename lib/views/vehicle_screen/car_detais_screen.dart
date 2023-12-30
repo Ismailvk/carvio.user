@@ -1,114 +1,98 @@
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
-import 'package:smooth_page_indicator/smooth_page_indicator.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:user_side/data/netword/api_urls.dart';
 import 'package:user_side/models/vehicle_model.dart';
 import 'package:user_side/resources/components/backbutton_widget.dart';
 import 'package:user_side/resources/components/medium_button_widget.dart';
 import 'package:user_side/resources/components/side_heading_row_widget.dart';
-import 'package:user_side/resources/components/small_card_widget.dart';
+import 'package:user_side/resources/components/small_car_card_widget.dart';
 import 'package:user_side/resources/components/sub_title_widget.dart';
 import 'package:user_side/resources/constants/app_color.dart';
 import 'package:user_side/resources/constants/app_fonts.dart';
 import 'package:user_side/views/payment_screen/payment_screen.dart';
 
+// ignore: must_be_immutable
 class CarDetailsScreen extends StatefulWidget {
   final Vehicle vehicleData;
   final String startingDate;
   final String endingDate;
-  const CarDetailsScreen(
-      {super.key,
-      required this.vehicleData,
-      required this.startingDate,
-      required this.endingDate});
+  const CarDetailsScreen({
+    super.key,
+    required this.vehicleData,
+    required this.startingDate,
+    required this.endingDate,
+  });
 
   @override
   State<CarDetailsScreen> createState() => _CarDetailsScreenState();
 }
 
 class _CarDetailsScreenState extends State<CarDetailsScreen> {
-  List item = [
-    Image.asset('asset/images/rangerrover.png'),
-    Image.asset('asset/images/rangerrover.png'),
-    Image.asset('asset/images/rangerrover.png'),
-  ];
-
   int activeIndex = 0;
 
   @override
   Widget build(BuildContext context) {
+    final dpadding = MediaQuery.of(context).padding.top;
     return Scaffold(
-      body: SafeArea(
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Stack(
-              alignment: Alignment.bottomCenter,
-              children: [
-                Container(
-                  decoration: const BoxDecoration(
-                      color: AppColors.carBackgroundColor,
-                      borderRadius: BorderRadius.only(
-                          bottomLeft: Radius.circular(30),
-                          bottomRight: Radius.circular(30))),
-                  height: 330,
-                  width: double.infinity,
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      const BackButtonWidget(),
-                      CarouselSlider(
-                        items: widget.vehicleData.images
-                            .map((e) => Image.network(
-                                  '${ApiUrls.baseUrl}/$e',
-                                  fit: BoxFit.cover,
-                                ))
-                            .toList(),
-                        options: CarouselOptions(
-                          onPageChanged: (index, reason) {
-                            setState(() {
-                              activeIndex = index;
-                            });
-                          },
-                          viewportFraction: 1,
-                        ),
-                      )
-                    ],
+      body: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Stack(
+            children: [
+              SizedBox(
+                height: 250,
+                child: ClipRRect(
+                  borderRadius: const BorderRadius.only(
+                      bottomLeft: Radius.circular(25),
+                      bottomRight: Radius.circular(25)),
+                  child: Image.network(
+                    '${ApiUrls.baseUrl}/${widget.vehicleData.images[0]}',
+                    fit: BoxFit.cover,
                   ),
                 ),
-                Padding(
-                  padding: const EdgeInsets.all(15),
-                  child: AnimatedSmoothIndicator(
-                      effect: const WormEffect(dotHeight: 10, dotWidth: 10),
-                      activeIndex: activeIndex,
-                      count: item.length),
-                )
-              ],
-            ),
-            SideHeadingRowWidget(
-              title: widget.vehicleData.brand,
-              secondTitle: "₹ ${widget.vehicleData.price}",
-              color: AppColors.red,
-            ),
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
-              child: SingleChildScrollView(
-                scrollDirection: Axis.horizontal,
-                child: Row(
-                  children: [
-                    SmallCardWidget(
-                        title: 'Transmission',
-                        subtitle: widget.vehicleData.transmission),
-                    SmallCardWidget(
-                        title: 'Fuel', subtitle: widget.vehicleData.fuel),
-                    const SmallCardWidget(title: 'Seat', subtitle: '5'),
-                  ],
-                ),
               ),
-            ),
-            const SubTitleWidget(title: 'Renter'),
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 15),
+              Padding(
+                padding: EdgeInsets.only(top: dpadding),
+                child: const BackButtonWidget(),
+              ),
+            ],
+          ),
+          SideHeadingRowWidget(
+            title: widget.vehicleData.brand,
+            secondTitle: "₹ ${widget.vehicleData.price}",
+            color: AppColors.red,
+          ),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            children: [
+              SmallCarCardWidget(
+                  name: widget.vehicleData.transmission,
+                  asset: 'asset/svg/steering-wheel.svg'),
+              SmallCarCardWidget(
+                  name: widget.vehicleData.model.toString(),
+                  asset: "asset/svg/settings.svg"),
+              SmallCarCardWidget(
+                  name: widget.vehicleData.fuel, asset: "asset/svg/petrol.svg"),
+              SmallCarCardWidget(
+                  name: widget.vehicleData.location,
+                  asset: "asset/svg/location-outline.svg")
+              // SmallCardWidget(
+              //     title: 'Transmission',
+              //     subtitle: widget.vehicleData.transmission),
+              // SmallCardWidget(
+              //     title: 'Fuel', subtitle: widget.vehicleData.fuel),
+              // const SmallCardWidget(title: 'Seat', subtitle: '5'),
+            ],
+          ),
+          const SubTitleWidget(title: 'Renter'),
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 10),
+            child: Card(
+              color: AppColors.lightGrey,
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(30),
+              ),
               child: Row(
                 children: [
                   ClipRRect(
@@ -139,31 +123,59 @@ class _CarDetailsScreenState extends State<CarDetailsScreen> {
                 ],
               ),
             ),
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
-              child: Row(
-                children: [
-                  const Padding(
-                    padding: EdgeInsets.only(left: 70),
-                    child: Icon(Icons.favorite_border, size: 40),
-                  ),
-                  const Spacer(),
-                  MediumButtonWidget(
-                    title: 'Book Now',
-                    onPress: () {
-                      Navigator.of(context).push(MaterialPageRoute(
-                          builder: (context) => PaymentScreen(
-                                vehicle: widget.vehicleData,
-                                startingDate: widget.startingDate,
-                                endingDate: widget.endingDate,
-                              )));
-                    },
-                  )
-                ],
+          ),
+          Padding(
+            padding: const EdgeInsets.all(5),
+            child: CarouselSlider(
+              items: widget.vehicleData.images
+                  .map((e) => Padding(
+                        padding: const EdgeInsets.all(5),
+                        child: ClipRRect(
+                          borderRadius: BorderRadius.circular(10),
+                          child: Image.network(
+                            '${ApiUrls.baseUrl}/$e',
+                            fit: BoxFit.cover,
+                          ),
+                        ),
+                      ))
+                  .toList(),
+              options: CarouselOptions(
+                height: MediaQuery.of(context).size.height / 4,
+                autoPlay: true,
+                onPageChanged: (index, reason) {
+                  setState(() {
+                    activeIndex = index;
+                  });
+                },
               ),
-            )
-          ],
-        ),
+            ),
+          ),
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
+            child: Row(
+              children: [
+                Padding(
+                  padding: EdgeInsets.only(
+                      left: MediaQuery.of(context).size.width / 7),
+                  child:
+                      Text('₹ 2000', style: GoogleFonts.ledger(fontSize: 22)),
+                ),
+                const Spacer(),
+                MediumButtonWidget(
+                  title: 'Book Now',
+                  onPress: () {
+                    Navigator.of(context).push(MaterialPageRoute(
+                        builder: (context) => PaymentScreen(
+                              vehicle: widget.vehicleData,
+                              startingDate: widget.startingDate,
+                              endingDate: widget.endingDate,
+                            )));
+                  },
+                )
+              ],
+            ),
+          )
+        ],
       ),
     );
   }

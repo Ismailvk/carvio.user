@@ -37,3 +37,20 @@ final class ResetPasswordFailedState extends UserState {
 
   ResetPasswordFailedState({required this.message});
 }
+
+// Get booking data
+final class FetchBookingDataSuccessState extends UserState {
+  List<BookingModel> completeList;
+  List<BookingModel> upcomingList;
+
+  FetchBookingDataSuccessState(
+      {required this.completeList, required this.upcomingList});
+}
+
+final class FetchBookingDataErrorState extends UserState {
+  final String message;
+
+  FetchBookingDataErrorState({required this.message});
+}
+
+final class FetchBookingDataFailedState extends UserState {}

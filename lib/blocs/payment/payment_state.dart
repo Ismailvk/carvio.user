@@ -13,3 +13,17 @@ final class PaymentErrorState extends PaymentState {
 }
 
 final class PaymentFailedState extends PaymentState {}
+
+// Payment Refund
+
+final class PaymentRefundLoadingState extends PaymentState {}
+
+final class PaymentRefundSuccessState extends PaymentState {}
+
+final class PaymentRefundErrorState extends PaymentState {
+  final String message;
+
+  PaymentRefundErrorState({required this.message});
+}
+
+final class PaymentRefundFailedState extends PaymentState {}

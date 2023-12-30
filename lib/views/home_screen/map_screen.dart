@@ -14,8 +14,11 @@ import 'package:user_side/views/vehicle_screen/vehicle_list_screen.dart';
 class BookingMapScreen extends StatelessWidget {
   String endingDate;
   String startingDate;
-  BookingMapScreen(
-      {super.key, required this.endingDate, required this.startingDate});
+  BookingMapScreen({
+    super.key,
+    required this.endingDate,
+    required this.startingDate,
+  });
 
   MapController mapController = MapController();
   LatLng latlong = const LatLng(9.931233, 76.267303);
@@ -140,7 +143,9 @@ class BookingMapScreen extends StatelessWidget {
                     Navigator.of(context).push(
                       MaterialPageRoute(
                         builder: (context) => VehicleListScreen(
-                            startingDate: startingDate, endingDate: endingDate),
+                          startingDate: startingDate,
+                          endingDate: endingDate,
+                        ),
                       ),
                     );
                   }

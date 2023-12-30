@@ -9,7 +9,7 @@ class SubTitleWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 13),
+      padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 10),
       child: Text(
         title,
         style: GoogleFonts.inriaSans(

@@ -18,7 +18,7 @@ class SplashScreen extends StatelessWidget {
         listener: (context, state) {
           if (state is FetchUserDataSuccessState) {
             Navigator.of(context).pushReplacement(
-                MaterialPageRoute(builder: (context) => const ScreenParant()));
+                MaterialPageRoute(builder: (context) => ScreenParant()));
           } else if (state is FetchUserDataErrorState) {
             Navigator.of(context).pushReplacement(
                 MaterialPageRoute(builder: (context) => LoginScreen()));
@@ -44,6 +44,8 @@ class SplashScreen extends StatelessWidget {
     if (token != null) {
       // ignore: use_build_context_synchronously
       context.read<UserBloc>().add(FetchUserDataEvent(token: token));
+      // ignore: use_build_context_synchronously
+      context.read<UserBloc>().add(FetchBookingDataEvent());
     } else {
       // ignore: use_build_context_synchronously
       Navigator.of(context).pushAndRemoveUntil(
