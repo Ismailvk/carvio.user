@@ -5,7 +5,9 @@ import 'package:user_side/data/netword/api_urls.dart';
 import 'package:user_side/resources/components/divider.dart';
 import 'package:user_side/resources/components/profile_listtle_widget.dart';
 import 'package:user_side/resources/constants/app_fonts.dart';
+import 'package:user_side/views/profile_screen/profile_screen.dart';
 import 'package:user_side/views/settings_screen/settings_screen.dart';
+import 'package:user_side/views/wallet_screen/wallet_screen.dart';
 
 class ProfileScreen extends StatelessWidget {
   const ProfileScreen({super.key});
@@ -60,14 +62,25 @@ class ProfileScreen extends StatelessWidget {
             },
           ),
           const SizedBox(height: 5),
-          const ListTileWidget(
-              imageString: 'asset/svg/user.svg', title: 'Profile'),
+          GestureDetector(
+            onTap: () => Navigator.of(context).push(MaterialPageRoute(
+                builder: (context) => const MyProfileScreen())),
+            child: const ListTileWidget(
+                imageString: 'asset/svg/user.svg', title: 'Profile'),
+          ),
           const DivederWidget(),
           const ListTileWidget(
               imageString: 'asset/svg/key.svg', title: 'Privacy'),
           const DivederWidget(),
           const ListTileWidget(
               imageString: 'asset/svg/alert.svg', title: 'Help & info'),
+          const DivederWidget(),
+          GestureDetector(
+            onTap: () => Navigator.of(context).push(
+                MaterialPageRoute(builder: (context) => const WalletScreen())),
+            child: const ListTileWidget(
+                imageString: 'asset/svg/wallet-fill.svg', title: 'Wallet'),
+          ),
           const DivederWidget(),
           GestureDetector(
             onTap: () => Navigator.of(context).push(

@@ -27,6 +27,14 @@ class _CompletedBookingState extends State<CompletedBooking> {
         listener: (context, state) {},
         builder: (context, state) {
           if (state is FetchBookingDataSuccessState) {
+            if (state.completeList.isEmpty) {
+              return Center(
+                child: Text(
+                  "You haven't upcoming bookings",
+                  style: AppFonts.popins,
+                ),
+              );
+            }
             return ListView.builder(
               itemCount: state.completeList.length,
               itemBuilder: (context, index) {
