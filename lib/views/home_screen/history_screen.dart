@@ -37,8 +37,8 @@ class _VehicleListScreenState extends State<HistoryScreen> {
             Text('Completed Booking', style: AppFonts.sansitaFont),
             Text('Upcoming Booking', style: AppFonts.sansitaFont),
           ],
-          views: [
-            const CompletedBooking(),
+          views: const [
+            CompletedBooking(),
             UpcomingBooking(),
           ],
         ),

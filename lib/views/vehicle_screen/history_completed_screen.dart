@@ -21,7 +21,15 @@ class HistoryCompletedDetailsScreen extends StatefulWidget {
 
 class _HistoryCompletedDetailsScreenState
     extends State<HistoryCompletedDetailsScreen> {
+  @override
+  void initState() {
+    super.initState();
+    count = countDate(widget.bookingData.startDate, widget.bookingData.endDate);
+  }
+
   int activeIndex = 0;
+  int? count;
+
   @override
   Widget build(BuildContext context) {
     final dpadding = MediaQuery.of(context).padding.top;
@@ -103,6 +111,7 @@ class _HistoryCompletedDetailsScreenState
           ),
           const SizedBox(height: 15),
           Rowwidget(heading: 'STATUS', data: widget.bookingData.status),
+          Rowwidget(heading: 'DAYS', data: count.toString()),
           Rowwidget(
               heading: 'STARTING DATE', data: widget.bookingData.startDate),
           Rowwidget(heading: 'ENDING DATE', data: widget.bookingData.endDate),
@@ -117,5 +126,12 @@ class _HistoryCompletedDetailsScreenState
         ],
       ),
     );
+  }
+
+  int countDate(String start, String end) {
+    DateTime startDate = DateTime.parse(start);
+    DateTime endDate = DateTime.parse(end);
+    int diffrence = endDate.difference(startDate).inDays;
+    return diffrence;
   }
 }

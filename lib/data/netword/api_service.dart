@@ -2,6 +2,8 @@ import 'dart:convert';
 import 'dart:io';
 import 'package:either_dart/either.dart';
 import 'package:http/http.dart' as http;
+import 'package:user_side/data/netword/api_urls.dart';
+import 'package:user_side/data/shared_preference/shared_prefence.dart';
 import 'package:user_side/utils/app_exceptions.dart';
 
 typedef EitherResponse = Future<Either<AppExceptions, dynamic>>;
@@ -119,6 +121,39 @@ class ApiService {
     } catch (e) {
       return Left(RequestTimeOutExceptions());
     }
+  }
+
+  Future<http.StreamedResponse> profileUpdate(File image) async {
+    final token = SharedPref.instance.getToke();
+    final url = Uri.parse("${ApiUrls.baseUrl}/${ApiUrls.updateProfile}");
+    var request = http.MultipartRequest('PATCH', url);
+    request.headers['Authorization'] = 'Bearer $token';
+    request.headers['Cookie'] = 'jwt=$token';
+    var profilePhotoStream = http.ByteStream(image.openRead());
+    var profilePhotoLength = await image.length();
+    var profilePhotoMultipartFile = http.MultipartFile(
+      'profile',
+      profilePhotoStream,
+      profilePhotoLength,
+      filename: 'profilephoto.jpg',
+    );
+    request.files.add(profilePhotoMultipartFile);
+    final response = await request.send();
+    return response;
+  }
+
+  Future<http.Response> dataUpdate(Map<String, dynamic> data) async {
+    final url = Uri.parse("${ApiUrls.baseUrl}/${ApiUrls.updateUser}");
+    final token = SharedPref.instance.getToke();
+    final header = {
+      'Authorization': 'Bearer $token',
+      'Cookie': 'jwt=$token',
+      'Content-Type': 'application/json'
+    };
+
+    final body = jsonEncode(data);
+    final response = await http.patch(url, body: body, headers: header);
+    return response;
   }
 
   static getResponse(http.Response response) {

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:user_side/data/get_it/get_it.dart';
 import 'package:user_side/resources/components/backbutton_widget.dart';
 import 'package:user_side/resources/constants/app_fonts.dart';
+import 'package:user_side/views/bottom_navbar_screen/bottom_navigation_bar.dart';
 
 class WalletScreen extends StatelessWidget {
   const WalletScreen({super.key});
@@ -41,7 +41,7 @@ class WalletScreen extends StatelessWidget {
                       style: AppFonts.popinsHeading,
                     ),
                     Text(
-                      "₹ ${globalUserModel.wallet.toString()}",
+                      "₹ ${globalUserModel?.wallet.toString() ?? 0}",
                       style: AppFonts.popinsHeading,
                     )
                   ],

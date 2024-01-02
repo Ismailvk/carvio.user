@@ -8,6 +8,8 @@ final class FetchUserDataEvent extends UserEvent {
   FetchUserDataEvent({required this.token});
 }
 
+final class FetchAllVehicle extends UserEvent {}
+
 final class FetchBookingDataEvent extends UserEvent {}
 
 final class ResetPasswordEvent extends UserEvent {

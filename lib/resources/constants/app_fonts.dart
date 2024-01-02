@@ -44,4 +44,10 @@ class AppFonts {
 
   static TextStyle appbarTitle =
       GoogleFonts.poppins(fontSize: 18, fontWeight: FontWeight.w600);
+
+  static TextStyle ibmsans =
+      GoogleFonts.ibmPlexSans(fontWeight: FontWeight.bold, fontSize: 21);
+
+  static TextStyle ibmsansGrey = GoogleFonts.ibmPlexSans(
+      fontWeight: FontWeight.bold, fontSize: 19, color: Colors.grey);
 }

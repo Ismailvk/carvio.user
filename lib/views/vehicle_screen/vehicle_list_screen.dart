@@ -64,7 +64,7 @@ class _VehicleListScreenState extends State<VehicleListScreen> {
                     return ListView.builder(
                       itemCount: state.vehicleList.length,
                       itemBuilder: (context, index) {
-                        Vehicle vehicle = state.vehicleList[index];
+                        VehicleModel vehicle = state.vehicleList[index];
 
                         return Padding(
                           padding: const EdgeInsets.all(8.0),

@@ -14,7 +14,7 @@ import 'package:user_side/views/payment_screen/payment_screen.dart';
 
 // ignore: must_be_immutable
 class CarDetailsScreen extends StatefulWidget {
-  final Vehicle vehicleData;
+  final VehicleModel vehicleData;
   final String startingDate;
   final String endingDate;
   const CarDetailsScreen({
@@ -157,8 +157,8 @@ class _CarDetailsScreenState extends State<CarDetailsScreen> {
                 Padding(
                   padding: EdgeInsets.only(
                       left: MediaQuery.of(context).size.width / 7),
-                  child:
-                      Text('₹ 2000', style: GoogleFonts.ledger(fontSize: 22)),
+                  child: Text('₹ ${widget.vehicleData.price.toString()}',
+                      style: GoogleFonts.ledger(fontSize: 22)),
                 ),
                 const Spacer(),
                 MediumButtonWidget(

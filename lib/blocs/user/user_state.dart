@@ -42,9 +42,14 @@ final class ResetPasswordFailedState extends UserState {
 final class FetchBookingDataSuccessState extends UserState {
   List<BookingModel> completeList;
   List<BookingModel> upcomingList;
+  List<BookingModel> activeList;
+  List<CarModel>? allVehicle;
 
   FetchBookingDataSuccessState(
-      {required this.completeList, required this.upcomingList});
+      {required this.completeList,
+      required this.upcomingList,
+      required this.activeList,
+      this.allVehicle});
 }
 
 final class FetchBookingDataErrorState extends UserState {
@@ -54,3 +59,9 @@ final class FetchBookingDataErrorState extends UserState {
 }
 
 final class FetchBookingDataFailedState extends UserState {}
+
+final class FetchGetAllVehicleFailedState extends UserState {
+  final String message;
+
+  FetchGetAllVehicleFailedState({required this.message});
+}

@@ -36,8 +36,8 @@ class VehicleBloc extends Bloc<VehicleEvent, VehicleState> {
       emit(FetchAvailableVehicleErrorState(message: error.message));
     }, (response) {
       final List vehicleList = response['vehicles'];
-      List<Vehicle> vehicleModel =
-          vehicleList.map((e) => Vehicle.fromJson(e)).toList();
+      List<VehicleModel> vehicleModel =
+          vehicleList.map((e) => VehicleModel.fromJson(e)).toList();
       emit(FetchAvailableVehicleSuccessState(vehicleList: vehicleModel));
     });
   }

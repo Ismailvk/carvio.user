@@ -65,4 +65,9 @@ class UserRepo {
     final url = '${ApiUrls.baseUrl}/${ApiUrls.refundAmount}/$bookingId';
     return ApiService.patchApi(refundData, url);
   }
+
+  EitherResponse getAllVehicle() {
+    const url = "${ApiUrls.baseUrl}/${ApiUrls.getAllvehicles}";
+    return ApiService.getApi(url, token);
+  }
 }

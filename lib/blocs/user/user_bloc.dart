@@ -1,10 +1,11 @@
 import 'dart:async';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/intl.dart';
-import 'package:user_side/data/get_it/get_it.dart';
 import 'package:user_side/models/booking_model.dart';
+import 'package:user_side/models/car_model.dart';
 import 'package:user_side/models/user_model.dart';
 import 'package:user_side/repositories/user_repo.dart';
+import 'package:user_side/views/bottom_navbar_screen/bottom_navigation_bar.dart';
 part 'user_event.dart';
 part 'user_state.dart';
 
@@ -14,10 +15,12 @@ class UserBloc extends Bloc<UserEvent, UserState> {
     on<FetchUserDataEvent>(fetchUserData);
     on<ResetPasswordEvent>(resetPassword);
     on<FetchBookingDataEvent>(fetchBookingData);
+    on<FetchAllVehicle>(fetchAllVehicle);
   }
 
   List<BookingModel> completedList = [];
   List<BookingModel> upComingList = [];
+  List<BookingModel> todayList = [];
 
   FutureOr<void> fetchUserData(
       FetchUserDataEvent event, Emitter<UserState> emit) async {
@@ -27,7 +30,7 @@ class UserBloc extends Bloc<UserEvent, UserState> {
     }, (response) {
       if (response != null) {
         userModel = UserModel.fromJson(response);
-        locator<UserBloc>().userModel = userModel;
+        globalUserModel = userModel;
         emit(FetchUserDataSuccessState(userModel: userModel));
       } else {
         emit(FetchUserDataFailedState());
@@ -60,6 +63,7 @@ class UserBloc extends Bloc<UserEvent, UserState> {
     final responseData = await UserRepo().getBookingData();
     DateTime currentDate = DateTime.now();
     DateFormat('yyyy-MM-dd').format(currentDate);
+
     responseData.fold((error) {
       emit(FetchBookingDataErrorState(message: error.message));
     }, (response) {
@@ -68,20 +72,47 @@ class UserBloc extends Bloc<UserEvent, UserState> {
         final bookingList =
             rawList.map((e) => BookingModel.fromJson(e)).toList();
 
+        todayList = bookingList.where((element) {
+          final startDate = DateTime.parse(element.startDate);
+          final endDate = DateTime.parse(element.endDate);
+          return startDate.isBefore(currentDate) &&
+              endDate.isAfter(currentDate);
+        }).toList();
+
         completedList = bookingList.where((element) {
           final endDate = DateTime.parse(element.endDate);
           return endDate.isBefore(currentDate);
         }).toList();
+
         upComingList = bookingList.where((element) {
           final endDate = DateTime.parse(element.endDate);
           return endDate.isAfter(currentDate);
         }).toList();
 
         emit(FetchBookingDataSuccessState(
-            completeList: completedList, upcomingList: upComingList));
+            completeList: completedList,
+            upcomingList: upComingList,
+            activeList: todayList));
       } else {
         emit(FetchBookingDataFailedState());
       }
+    });
+  }
+
+  FutureOr<void> fetchAllVehicle(
+      FetchAllVehicle event, Emitter<UserState> emit) async {
+    final response = await UserRepo().getAllVehicle();
+    response.fold((error) {
+      emit(FetchGetAllVehicleFailedState(message: error.message));
+    }, (response) {
+      final List vehicleList = response['vehicles'];
+      List<CarModel> vehicleModel =
+          vehicleList.map((e) => CarModel.fromJson(e)).toList();
+      emit(FetchBookingDataSuccessState(
+          allVehicle: vehicleModel,
+          activeList: todayList,
+          completeList: completedList,
+          upcomingList: upComingList));
     });
   }
 }

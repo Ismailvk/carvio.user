@@ -50,7 +50,7 @@ class HostDetails {
   }
 }
 
-class Vehicle {
+class VehicleModel {
   String id;
   String name;
   double price;
@@ -68,7 +68,7 @@ class Vehicle {
   List<Booking> bookings; // Add bookings field
   HostDetails hostDetails;
 
-  Vehicle({
+  VehicleModel({
     required this.id,
     required this.name,
     required this.price,
@@ -87,8 +87,8 @@ class Vehicle {
     required this.hostDetails,
   });
 
-  factory Vehicle.fromJson(Map<String, dynamic> json) {
-    return Vehicle(
+  factory VehicleModel.fromJson(Map<String, dynamic> json) {
+    return VehicleModel(
       id: json['_id'],
       name: json['name'],
       price: json['price'].toDouble(),

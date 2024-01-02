@@ -5,6 +5,7 @@ import 'package:user_side/resources/components/profile_listtle_widget.dart';
 import 'package:user_side/resources/constants/app_fonts.dart';
 import 'package:user_side/utils/show_dialogue.dart';
 import 'package:user_side/views/change_password/change_password.dart';
+import 'package:user_side/views/settings_screen/edit_profile.dart';
 
 class SettingScreen extends StatelessWidget {
   const SettingScreen({super.key});
@@ -23,8 +24,12 @@ class SettingScreen extends StatelessWidget {
             ],
           ),
           const SizedBox(height: 10),
-          const ListTileWidget(
-              imageString: 'asset/svg/user.svg', title: 'Edit Profile'),
+          GestureDetector(
+            onTap: () => Navigator.of(context).push(
+                MaterialPageRoute(builder: (context) => EditProfileScreen())),
+            child: const ListTileWidget(
+                imageString: 'asset/svg/user.svg', title: 'Edit Profile'),
+          ),
           const DivederWidget(),
           GestureDetector(
             onTap: () {

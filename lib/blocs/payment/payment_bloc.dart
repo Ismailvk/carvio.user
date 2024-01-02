@@ -1,8 +1,8 @@
 import 'dart:async';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:razorpay_flutter/razorpay_flutter.dart';
-import 'package:user_side/data/get_it/get_it.dart';
 import 'package:user_side/repositories/user_repo.dart';
+import 'package:user_side/views/bottom_navbar_screen/bottom_navigation_bar.dart';
 part 'payment_event.dart';
 part 'payment_state.dart';
 
@@ -77,11 +77,11 @@ class PaymentBloc extends Bloc<PaymentEvent, PaymentState> {
       emit(PaymentRefundErrorState(message: error.message));
     }, (response) {
       if (response['message'] == "Success") {
-        int amount = globalUserModel.wallet ?? 0;
+        int amount = globalUserModel?.wallet ?? 0;
         print('*************');
         print(amount);
-        globalUserModel.wallet = amount + event.amount.toInt();
-        print(globalUserModel.wallet);
+        globalUserModel?.wallet = amount + event.amount.toInt();
+        print(globalUserModel?.wallet);
         emit(PaymentRefundSuccessState());
       } else {
         emit(PaymentRefundFailedState());

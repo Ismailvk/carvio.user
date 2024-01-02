@@ -7,7 +7,7 @@ final class VehicleInitial extends VehicleState {}
 final class FetchAvailableVehicleLoadingState extends VehicleState {}
 
 final class FetchAvailableVehicleSuccessState extends VehicleState {
-  List<Vehicle> vehicleList;
+  List<VehicleModel> vehicleList;
   FetchAvailableVehicleSuccessState({required this.vehicleList});
 }
 

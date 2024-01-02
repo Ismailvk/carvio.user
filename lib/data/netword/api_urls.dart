@@ -12,4 +12,7 @@ class ApiUrls {
   static const String bookVehicle = 'user/book-vehicle';
   static const String getBooking = 'user/user-booking';
   static const String refundAmount = 'user/cancel-booking';
+  static const String updateProfile = 'user/update-profile';
+  static const String updateUser = 'user/update-user';
+  static const String getAllvehicles = "user/getVehicles";
 }

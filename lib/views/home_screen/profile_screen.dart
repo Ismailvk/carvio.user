@@ -5,6 +5,7 @@ import 'package:user_side/data/netword/api_urls.dart';
 import 'package:user_side/resources/components/divider.dart';
 import 'package:user_side/resources/components/profile_listtle_widget.dart';
 import 'package:user_side/resources/constants/app_fonts.dart';
+import 'package:user_side/views/bottom_navbar_screen/bottom_navigation_bar.dart';
 import 'package:user_side/views/profile_screen/profile_screen.dart';
 import 'package:user_side/views/settings_screen/settings_screen.dart';
 import 'package:user_side/views/wallet_screen/wallet_screen.dart';
@@ -25,30 +26,26 @@ class ProfileScreen extends StatelessWidget {
           Container(
             padding: const EdgeInsets.only(top: 10),
             alignment: Alignment.topCenter,
-            child: BlocBuilder<UserBloc, UserState>(
-              builder: (context, state) {
-                if (state is FetchUserDataSuccessState) {
-                  final image = state.userModel.profile;
-                  return image == null
-                      ? CircleAvatar(
-                          radius: 45,
-                          child: Image.asset('asset/images/user.png'),
-                        )
-                      : SizedBox(
-                          height: MediaQuery.of(context).size.height / 9.5,
-                          width: MediaQuery.of(context).size.width / 4.5,
-                          child: ClipRRect(
-                            borderRadius: BorderRadius.circular(60),
-                            child: Image.network(
-                              '${ApiUrls.baseUrl}/$image',
-                              fit: BoxFit.cover,
-                            ),
-                          ),
-                        );
-                }
-                return const SizedBox.shrink();
-              },
-            ),
+            child: globalUserModel?.profile != null
+                ? CircleAvatar(
+                    radius: 60,
+                    child: SizedBox(
+                      width: MediaQuery.of(context).size.width / 3,
+                      height: MediaQuery.of(context).size.width / 3,
+                      child: ClipRRect(
+                        borderRadius: BorderRadius.circular(60),
+                        child: Image.network(
+                          '${ApiUrls.baseUrl}/${globalUserModel?.profile}',
+                          fit: BoxFit.cover,
+                        ),
+                      ),
+                    ),
+                  )
+                : CircleAvatar(
+                    radius: 60,
+                    child: Image.asset('asset/images/user copy.png',
+                        fit: BoxFit.fill),
+                  ),
           ),
           const SizedBox(height: 5),
           BlocBuilder<UserBloc, UserState>(
