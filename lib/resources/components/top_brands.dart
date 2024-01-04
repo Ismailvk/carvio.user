@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:user_side/models/car_model.dart';
+import 'package:user_side/views/top_brand/vehicle_list.dart';
 
 // ignore: must_be_immutable
 class TopBrandsWidget extends StatelessWidget {
@@ -22,15 +23,29 @@ class TopBrandsWidget extends StatelessWidget {
       child: ListView.separated(
           scrollDirection: Axis.horizontal,
           itemBuilder: (context, index) {
-            print(carmodel);
-            return Container(
-              decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(10),
-                  color: Colors.white,
-                  border: Border.all(color: Colors.grey.shade300, width: 1)),
-              width: MediaQuery.sizeOf(context).width / 4.6,
-              child: Center(
-                child: Image.asset(brandLogos[index]),
+            List<List<CarModel>> data = [
+              carmodel!.where((element) => element.brand == 'benz').toList(),
+              carmodel!.where((element) => element.brand == 'bmw').toList(),
+              carmodel!
+                  .where((element) => element.brand == 'lamborgini')
+                  .toList(),
+              carmodel!.where((element) => element.brand == 'nissan').toList(),
+            ];
+            return GestureDetector(
+              onTap: () {
+                Navigator.of(context).push(MaterialPageRoute(
+                    builder: (context) =>
+                        TopBrandVehicleList(carmodel: data[index])));
+              },
+              child: Container(
+                decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(10),
+                    color: Colors.white,
+                    border: Border.all(color: Colors.grey.shade300, width: 1)),
+                width: MediaQuery.sizeOf(context).width / 4.6,
+                child: Center(
+                  child: Image.asset(brandLogos[index]),
+                ),
               ),
             );
           },

@@ -27,6 +27,7 @@ class PaymentBloc extends Bloc<PaymentEvent, PaymentState> {
     bookingData['endDate'] = event.endDate;
     bookingData['total'] = event.total;
     bookingData['grandTotal'] = event.grandTotal;
+    if (event.grandTotal == 0) {}
 
     var options = {
       'key': 'rzp_test_0railK3kmonZvZ',

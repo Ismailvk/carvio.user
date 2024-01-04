@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/intl.dart';
+import 'package:user_side/blocs/user_data/user_data_bloc.dart';
 import 'package:user_side/models/booking_model.dart';
 import 'package:user_side/models/car_model.dart';
 import 'package:user_side/models/user_model.dart';
@@ -11,16 +12,17 @@ part 'user_state.dart';
 
 class UserBloc extends Bloc<UserEvent, UserState> {
   late UserModel userModel;
-  UserBloc() : super(UserInitial()) {
+  late UserDataBloc userDataBloc;
+  UserBloc(this.userDataBloc) : super(UserInitial()) {
     on<FetchUserDataEvent>(fetchUserData);
     on<ResetPasswordEvent>(resetPassword);
     on<FetchBookingDataEvent>(fetchBookingData);
-    on<FetchAllVehicle>(fetchAllVehicle);
   }
 
   List<BookingModel> completedList = [];
   List<BookingModel> upComingList = [];
   List<BookingModel> todayList = [];
+  List<CarModel> vehicleModel = [];
 
   FutureOr<void> fetchUserData(
       FetchUserDataEvent event, Emitter<UserState> emit) async {
@@ -31,6 +33,7 @@ class UserBloc extends Bloc<UserEvent, UserState> {
       if (response != null) {
         userModel = UserModel.fromJson(response);
         globalUserModel = userModel;
+        userDataBloc.add(FetchUserData(userModel: userModel));
         emit(FetchUserDataSuccessState(userModel: userModel));
       } else {
         emit(FetchUserDataFailedState());
@@ -96,23 +99,6 @@ class UserBloc extends Bloc<UserEvent, UserState> {
       } else {
         emit(FetchBookingDataFailedState());
       }
-    });
-  }
-
-  FutureOr<void> fetchAllVehicle(
-      FetchAllVehicle event, Emitter<UserState> emit) async {
-    final response = await UserRepo().getAllVehicle();
-    response.fold((error) {
-      emit(FetchGetAllVehicleFailedState(message: error.message));
-    }, (response) {
-      final List vehicleList = response['vehicles'];
-      List<CarModel> vehicleModel =
-          vehicleList.map((e) => CarModel.fromJson(e)).toList();
-      emit(FetchBookingDataSuccessState(
-          allVehicle: vehicleModel,
-          activeList: todayList,
-          completeList: completedList,
-          upcomingList: upComingList));
     });
   }
 }

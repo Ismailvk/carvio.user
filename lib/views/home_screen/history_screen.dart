@@ -5,14 +5,9 @@ import 'package:user_side/resources/constants/app_fonts.dart';
 import 'package:user_side/views/vehicle_screen/upcoming_booking.dart';
 import 'package:user_side/views/vehicle_screen/completed_booking.dart';
 
-class HistoryScreen extends StatefulWidget {
+class HistoryScreen extends StatelessWidget {
   const HistoryScreen({super.key});
 
-  @override
-  State<HistoryScreen> createState() => _VehicleListScreenState();
-}
-
-class _VehicleListScreenState extends State<HistoryScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(

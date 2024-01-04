@@ -10,7 +10,7 @@ final class PaymentInitialEvent extends PaymentEvent {
   final String dropoff;
   final String startDate;
   final String endDate;
-  final int grandTotal;
+  final double grandTotal;
 
   PaymentInitialEvent(
       {required this.total,

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:user_side/blocs/user/user_bloc.dart';
+import 'package:user_side/blocs/vehicle/vehicle_bloc.dart';
 import 'package:user_side/data/shared_preference/shared_prefence.dart';
 import 'package:user_side/resources/constants/app_color.dart';
 import 'package:user_side/utils/custom_snackbar.dart';
@@ -46,8 +47,7 @@ class SplashScreen extends StatelessWidget {
       context.read<UserBloc>().add(FetchUserDataEvent(token: token));
       // ignore: use_build_context_synchronously
       context.read<UserBloc>().add(FetchBookingDataEvent());
-      // ignore: use_build_context_synchronously
-      context.read<UserBloc>().add(FetchAllVehicle());
+      context.read<VehicleBloc>().add(FetchAllVehicles());
     } else {
       // ignore: use_build_context_synchronously
       Navigator.of(context).pushAndRemoveUntil(

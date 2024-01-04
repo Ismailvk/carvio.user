@@ -3,9 +3,10 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:lottie/lottie.dart';
 import 'package:user_side/blocs/user/user_bloc.dart';
+import 'package:user_side/blocs/user_data/user_data_bloc.dart';
+import 'package:user_side/blocs/vehicle/vehicle_bloc.dart';
 import 'package:user_side/data/netword/api_urls.dart';
 import 'package:user_side/models/booking_model.dart';
-import 'package:user_side/models/car_model.dart';
 import 'package:user_side/resources/components/sub_title_widget.dart';
 import 'package:user_side/resources/components/top_brands.dart';
 import 'package:user_side/resources/constants/app_color.dart';
@@ -31,7 +32,7 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   Widget build(BuildContext context) {
     double heigth = MediaQuery.sizeOf(context).height;
-
+    context.read<VehicleBloc>().add(FetchAllVehicles());
     return Scaffold(
       body: SafeArea(
           child: Column(
@@ -69,20 +70,27 @@ class _HomeScreenState extends State<HomeScreen> {
               child: Padding(
                 padding:
                     const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text('Hi, ${globalUserModel?.name}',
-                            style: AppFonts.ibmsans),
-                        Text('Your available balance', style: AppFonts.popins)
-                      ],
-                    ),
-                    Text('₹ ${globalUserModel?.wallet ?? 0}',
-                        style: AppFonts.ibmsansGrey)
-                  ],
+                child: BlocBuilder<UserDataBloc, UserDataState>(
+                  builder: (context, state) {
+                    if (state is GetUserDataSuccessState) {
+                      return Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text('Hi, ${state.userModel.name}',
+                                  style: AppFonts.ibmsans),
+                              Text('Welcome !!!!', style: AppFonts.popins)
+                            ],
+                          ),
+                          // Text('₹ ${state.userModel.wallet ?? 0}',
+                          //     style: AppFonts.ibmsansGrey)
+                        ],
+                      );
+                    }
+                    return const SizedBox.shrink();
+                  },
                 ),
               ),
             ),
@@ -244,13 +252,12 @@ class _HomeScreenState extends State<HomeScreen> {
             ),
           ),
           const SubTitleWidget(title: 'Top Brands'),
-          BlocBuilder<UserBloc, UserState>(
+          BlocBuilder<VehicleBloc, VehicleState>(
+            buildWhen: (previous, current) =>
+                current is! FetchAvailableVehicleSuccessState,
             builder: (context, state) {
-              print(state);
-              if (state is FetchBookingDataSuccessState) {
-                final data = state.allVehicle;
-                print(data);
-                return TopBrandsWidget(carmodel: data);
+              if (state is FetchAllVehicleSuccessState) {
+                return TopBrandsWidget(carmodel: state.allVehicleList);
               }
               return const SizedBox.shrink();
             },

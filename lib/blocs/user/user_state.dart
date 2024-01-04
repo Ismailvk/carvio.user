@@ -43,13 +43,12 @@ final class FetchBookingDataSuccessState extends UserState {
   List<BookingModel> completeList;
   List<BookingModel> upcomingList;
   List<BookingModel> activeList;
-  List<CarModel>? allVehicle;
 
-  FetchBookingDataSuccessState(
-      {required this.completeList,
-      required this.upcomingList,
-      required this.activeList,
-      this.allVehicle});
+  FetchBookingDataSuccessState({
+    required this.completeList,
+    required this.upcomingList,
+    required this.activeList,
+  });
 }
 
 final class FetchBookingDataErrorState extends UserState {

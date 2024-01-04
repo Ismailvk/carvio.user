@@ -1,45 +1,38 @@
 import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:image_cropper/image_cropper.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:loading_animation_widget/loading_animation_widget.dart';
-import 'package:user_side/blocs/profile_edit/profile_edit_bloc.dart';
-import 'package:user_side/blocs/profile_edit/profile_edit_event.dart';
-import 'package:user_side/blocs/profile_edit/profile_edit_state.dart';
+import 'package:user_side/blocs/user_data/user_data_bloc.dart';
 import 'package:user_side/data/netword/api_urls.dart';
 import 'package:user_side/resources/components/backbutton_widget.dart';
 import 'package:user_side/resources/components/button_widget.dart';
 import 'package:user_side/resources/components/textformfield.dart';
 import 'package:user_side/resources/constants/app_color.dart';
 import 'package:user_side/resources/constants/app_fonts.dart';
-import 'package:user_side/utils/custom_snackbar.dart';
 import 'package:user_side/utils/validation.dart';
 import 'package:user_side/views/bottom_navbar_screen/bottom_navigation_bar.dart';
 
+import '../../utils/imagepicker_service.dart';
+
 // ignore: must_be_immutable
-class EditProfileScreen extends StatefulWidget {
-  const EditProfileScreen({super.key});
+class EditProfileScreen extends StatelessWidget {
+  EditProfileScreen({super.key});
 
-  @override
-  State<EditProfileScreen> createState() => _EditProfileScreenState();
-}
-
-class _EditProfileScreenState extends State<EditProfileScreen> {
   TextEditingController nameController = TextEditingController();
   TextEditingController phoneController = TextEditingController();
   GlobalKey<FormState> profileKey = GlobalKey<FormState>();
-
   String? imagePath;
-  File? profileImage;
-  @override
-  void initState() {
-    super.initState();
-    nameController.text = globalUserModel?.name ?? '';
-    phoneController.text =
-        globalUserModel?.phone.toString() ?? 0000000000.toString();
-  }
 
+  File? profileImage;
+
+  // @override
   @override
   Widget build(BuildContext context) {
+    var user = context.read<UserDataBloc>().user;
+    nameController.text = user.name;
+    phoneController.text = user.phone.toString();
     return Scaffold(
       body: SafeArea(
           child: SingleChildScrollView(
@@ -55,61 +48,55 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                 ],
               ),
               SizedBox(height: MediaQuery.of(context).size.height / 12),
-              BlocBuilder<ProfileEditBloc, ProfileEditState>(
-                builder: (context, state) {
-                  if (state is ProfileImageAddedState) {
-                    profileImage = state.imagePath;
-                    imagePath = state.imagePath.path;
-                  }
-                  return Stack(
-                    children: [
-                      globalUserModel?.profile != null
-                          ? CircleAvatar(
-                              radius: 60,
-                              child: SizedBox(
-                                width: MediaQuery.of(context).size.width / 3,
-                                height: MediaQuery.of(context).size.width / 3,
-                                child: ClipRRect(
-                                  borderRadius: BorderRadius.circular(60),
-                                  child: imagePath != null
-                                      ? CircleAvatar(
-                                          backgroundImage:
-                                              FileImage(File(imagePath!)),
-                                          radius: 80,
-                                        )
-                                      : Image.network(
-                                          '${ApiUrls.baseUrl}/${globalUserModel?.profile}',
-                                          fit: BoxFit.cover,
-                                        ),
+              StatefulBuilder(builder: (context, setState) {
+                return Stack(
+                  children: [
+                    CircleAvatar(
+                      radius: 60,
+                      child: SizedBox(
+                        width: MediaQuery.of(context).size.width / 3,
+                        height: MediaQuery.of(context).size.width / 3,
+                        child: ClipRRect(
+                          borderRadius: BorderRadius.circular(60),
+                          child: imagePath != null
+                              ? CircleAvatar(
+                                  backgroundImage: FileImage(File(imagePath!)),
+                                  radius: 80,
+                                )
+                              : Image.network(
+                                  '${ApiUrls.baseUrl}/${user.profile}',
+                                  fit: BoxFit.cover,
                                 ),
-                              ),
-                            )
-                          : CircleAvatar(
-                              radius: 60,
-                              child: Image.asset('asset/images/user copy.png',
-                                  fit: BoxFit.fill),
-                            ),
-                      Positioned(
-                        bottom: -2,
-                        right: -15,
-                        child: RawMaterialButton(
-                          onPressed: () {
-                            context
-                                .read<ProfileEditBloc>()
-                                .add(ImageAddedClicked());
-                          },
-                          elevation: 2.0,
-                          fillColor: const Color(0xFFF5F6F9),
-                          padding: const EdgeInsets.all(9),
-                          shape: const CircleBorder(),
-                          child: const Icon(Icons.camera_alt_outlined,
-                              color: Colors.blue),
                         ),
-                      )
-                    ],
-                  );
-                },
-              ),
+                      ),
+                    ),
+                    Positioned(
+                      bottom: -2,
+                      right: -15,
+                      child: RawMaterialButton(
+                        onPressed: () async {
+                          final pickedimage = await ImagePickService()
+                              .pickCropImage(
+                                  cropAspectRatio: const CropAspectRatio(
+                                      ratioX: 1, ratioY: 1),
+                                  imageSource: ImageSource.gallery);
+                          if (pickedimage != null) {
+                            File imagePicked = File(pickedimage.path);
+                            imagePath = imagePicked.path;
+                            setState(() {});
+                          }
+                        },
+                        elevation: 2.0,
+                        fillColor: const Color(0xFFF5F6F9),
+                        padding: const EdgeInsets.all(9),
+                        shape: const CircleBorder(),
+                        child: const Icon(Icons.camera_alt_outlined,
+                            color: Colors.blue),
+                      ),
+                    )
+                  ],
+                );
+              }),
               Padding(
                 padding:
                     const EdgeInsets.symmetric(horizontal: 10, vertical: 15),
@@ -130,41 +117,29 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                     hintText: 'Name',
                     obscureText: false),
               ),
-              Padding(
-                padding: const EdgeInsets.symmetric(vertical: 20),
-                child: BlocConsumer<ProfileEditBloc, ProfileEditState>(
-                  listener: (context, state) {
-                    if (state is ProfileUpdateFailedState) {
-                      topSnackbar(context, state.message, AppColors.red);
-                    } else if (state is ProfileUpdateSuccsessState) {
-                      print(state);
-                      Navigator.of(context).pushAndRemoveUntil(
-                          MaterialPageRoute(
-                              builder: (context) => const ScreenParant()),
-                          (route) => false);
-                      topSnackbar(
-                          context, "Profile Updated Succsess", AppColors.green);
-                    }
-                  },
-                  builder: (context, state) {
-                    if (state is ProfileUpdateLoadingState) {
-                      return Center(
-                        child: LoadingAnimationWidget.inkDrop(
-                            color: AppColors.primaryColor, size: 50),
-                      );
-                    }
-                    return ButtonWidget(
+              const SizedBox(height: 10),
+              BlocConsumer<UserDataBloc, UserDataState>(
+                listener: (context, state) {
+                  if (state is GetUserDataSuccessState) {
+                    Navigator.of(context).pushAndRemoveUntil(
+                        MaterialPageRoute(
+                            builder: (context) => const ScreenParant()),
+                        (route) => false);
+                  }
+                },
+                builder: (context, state) {
+                  if (state is GetUserDataLoadingState) {
+                    return Center(
+                      child: LoadingAnimationWidget.inkDrop(
+                          color: AppColors.primaryColor, size: 50),
+                    );
+                  }
+                  return ButtonWidget(
                       title: 'Submit',
                       onPress: () {
-                        if (profileImage == null) {
-                          return topSnackbar(context,
-                              "Select your profile picture", Colors.orange);
-                        }
-                        profileUpdate(context, profileImage!);
-                      },
-                    );
-                  },
-                ),
+                        profileUpdate(context, File(imagePath!));
+                      });
+                },
               )
             ],
           ),
@@ -173,15 +148,15 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
     );
   }
 
-  profileUpdate(BuildContext context, File image) {
+  profileUpdate(BuildContext context, File? image) {
     if (profileKey.currentState!.validate()) {
       Map<String, dynamic> data = {
         "phone": phoneController.text,
         "name": nameController.text
       };
       context
-          .read<ProfileEditBloc>()
-          .add(SubmitClicked(imagepath: image, data: data));
+          .read<UserDataBloc>()
+          .add(UpdateUserEvent(imagePath: image, data: data));
     }
   }
 }

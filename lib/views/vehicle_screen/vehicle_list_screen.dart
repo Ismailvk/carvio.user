@@ -15,7 +15,7 @@ import 'package:user_side/views/vehicle_screen/car_detais_screen.dart';
 class VehicleListScreen extends StatefulWidget {
   final String startingDate;
   final String endingDate;
-  VehicleListScreen({
+  const VehicleListScreen({
     super.key,
     required this.startingDate,
     required this.endingDate,
@@ -26,12 +26,6 @@ class VehicleListScreen extends StatefulWidget {
 }
 
 class _VehicleListScreenState extends State<VehicleListScreen> {
-  List items = [
-    Image.asset('asset/images/rangerrover.png'),
-    Image.asset('asset/images/rangerrover.png'),
-    Image.asset('asset/images/rangerrover.png'),
-  ];
-
   int activeIndex = 0;
   @override
   Widget build(BuildContext context) {

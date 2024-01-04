@@ -5,9 +5,9 @@ import 'package:user_side/blocs/forget_password/forget_password_bloc.dart';
 import 'package:user_side/blocs/login_bloc/login_bloc.dart';
 import 'package:user_side/blocs/map_bloc/map_bloc.dart';
 import 'package:user_side/blocs/payment/payment_bloc.dart';
-import 'package:user_side/blocs/profile_edit/profile_edit_bloc.dart';
 import 'package:user_side/blocs/signup_bloc/signup_bloc.dart';
 import 'package:user_side/blocs/user/user_bloc.dart';
+import 'package:user_side/blocs/user_data/user_data_bloc.dart';
 import 'package:user_side/blocs/vehicle/vehicle_bloc.dart';
 import 'package:user_side/data/shared_preference/shared_prefence.dart';
 import 'package:user_side/firebase_options.dart';
@@ -30,7 +30,9 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MultiBlocProvider(
       providers: [
-        BlocProvider<UserBloc>(create: (context) => UserBloc()),
+        BlocProvider<UserDataBloc>(create: (context) => UserDataBloc()),
+        BlocProvider<UserBloc>(
+            create: (context) => UserBloc(context.read<UserDataBloc>())),
         BlocProvider<LoginBloc>(
             create: (context) => LoginBloc(context.read<UserBloc>())),
         BlocProvider<SignupBloc>(
@@ -40,7 +42,7 @@ class MyApp extends StatelessWidget {
         BlocProvider<ForgetPasswordBloc>(
             create: (context) => ForgetPasswordBloc()),
         BlocProvider<PaymentBloc>(create: (context) => PaymentBloc()),
-        BlocProvider<ProfileEditBloc>(create: (context) => ProfileEditBloc())
+        // BlocProvider<ProfileEditBloc>(create: (context) => ProfileEditBloc()),
       ],
       child: MaterialApp(
         title: 'Carnova User',

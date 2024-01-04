@@ -36,7 +36,7 @@ class _PaymentScreenState extends State<PaymentScreen> {
   }
 
   int? count;
-  var isChecked = ValueNotifier(false);
+  // var isChecked = ValueNotifier(false);
   late int sgst = widget.vehicle.price ~/ 14.ceil();
   late int cgst = sgst;
   late double totalAmount = (widget.vehicle.price * count!) + sgst + cgst;
@@ -106,48 +106,44 @@ class _PaymentScreenState extends State<PaymentScreen> {
                     const Padding(
                         padding: EdgeInsets.symmetric(horizontal: 15),
                         child: Divider(thickness: 0.5)),
-                    Row(
-                      children: [
-                        ValueListenableBuilder(
-                            valueListenable: isChecked,
-                            builder: (context, value, _) {
-                              return Checkbox(
-                                value: value,
-                                onChanged: (value) {
-                                  isChecked.value = value ?? false;
-                                },
-                              );
-                            }),
-                        Expanded(
-                          child: Padding(
-                            padding: const EdgeInsets.only(right: 15),
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-                                const Text('Wallet'),
-                                Text('₹ ${globalUserModel?.wallet ?? 0}')
-                              ],
-                            ),
-                          ),
-                        )
-                      ],
-                    ),
-                    ValueListenableBuilder(
-                        valueListenable: isChecked,
-                        builder: (context, val, _) {
-                          double totalDiscountedAmount = totalAmount -
-                              double.parse('${globalUserModel?.wallet ?? 0}');
-                          totalDiscountedAmount = totalDiscountedAmount < 0
-                              ? 0
-                              : totalDiscountedAmount;
-                          return !val
-                              ? FairDetailsRowWidget(
-                                  name: "Total Rental Amount",
-                                  money: '₹ $totalAmount')
-                              : FairDetailsRowWidget(
-                                  name: "Total Rental Amount",
-                                  money: '₹ $totalDiscountedAmount');
-                        }),
+                    // Row(
+                    //   children: [
+                    //     ValueListenableBuilder(
+                    //         valueListenable: isChecked,
+                    //         builder: (context, value, _) {
+                    //           return Checkbox(
+                    //             value: value,
+                    //             onChanged: (value) {
+                    //               isChecked.value = value ?? false;
+                    //             },
+                    //           );
+                    //         }),
+                    //     Expanded(
+                    //       child: Padding(
+                    //         padding: const EdgeInsets.only(right: 15),
+                    //         child: Row(
+                    //           mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    //           children: [
+                    //             const Text('Wallet'),
+                    //             Text('₹ ${globalUserModel?.wallet ?? 0}')
+                    //           ],
+                    //         ),
+                    //       ),
+                    //     )
+                    //   ],
+                    // ),
+                    // ValueListenableBuilder(
+                    //     valueListenable: isChecked,
+                    //     builder: (context, val, _) {
+                    //       double totalDiscountedAmount = getDiscountAmount();
+                    //       return !val
+                    //           ? FairDetailsRowWidget(
+                    //               name: "Total Rental Amount",
+                    //               money: '₹ $totalAmount')
+                    //           : FairDetailsRowWidget(
+                    //               name: "Total Rental Amount",
+                    //               money: '₹ $totalDiscountedAmount');
+                    //     }),
                     Padding(
                       padding: const EdgeInsets.all(8.0),
                       child: BlocConsumer<PaymentBloc, PaymentState>(
@@ -179,7 +175,11 @@ class _PaymentScreenState extends State<PaymentScreen> {
                                       dropoff: widget.vehicle.location,
                                       startDate: widget.startingDate,
                                       endDate: widget.endingDate,
-                                      grandTotal: totalAmount.toInt())));
+                                      grandTotal: totalAmount
+                                      //  isChecked.value
+                                      //     ? getDiscountAmount()
+                                      //     : totalAmount
+                                      )));
                         },
                       ),
                     )
@@ -191,6 +191,14 @@ class _PaymentScreenState extends State<PaymentScreen> {
         ),
       ),
     );
+  }
+
+  double getDiscountAmount() {
+    double totalDiscountedAmount =
+        totalAmount - double.parse('${globalUserModel?.wallet ?? 0}');
+    totalDiscountedAmount =
+        totalDiscountedAmount < 0 ? 0 : totalDiscountedAmount;
+    return totalDiscountedAmount;
   }
 
   int countDate(String start, String end) {

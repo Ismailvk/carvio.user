@@ -22,3 +22,11 @@ final class FetchAvailableVehicleErrorState extends VehicleState {
 final class FetchVehicleSuccessState extends VehicleState {}
 
 final class FetchVehicleFailedState extends VehicleState {}
+
+final class FetchAllVehicleSuccessState extends VehicleState {
+  final List<CarModel> allVehicleList;
+
+  FetchAllVehicleSuccessState({required this.allVehicleList});
+}
+
+final class FetchAllVehicleFailedState extends VehicleState {}

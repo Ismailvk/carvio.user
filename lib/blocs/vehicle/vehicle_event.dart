@@ -9,3 +9,5 @@ final class FetchAvailableVehicleEvent extends VehicleEvent {
 }
 
 final class FetchVehicleEvent extends VehicleEvent {}
+
+final class FetchAllVehicles extends VehicleEvent {}
